@@ -23,9 +23,10 @@ public class FreightBotInfo {
     private DcMotor frontRight;
 
     //modules!
-
+    public DcMotor duckyMover;
 
     //encoders
+    private double duckyTicksPerRev;
     private double backLeftTicksPerRev;
     private double backRightTicksPerRev;
     private double frontLeftTicksPerRev;
@@ -48,7 +49,9 @@ public class FreightBotInfo {
         frontLeft = hwMap.get(DcMotor.class, "lf");
         frontRight = hwMap.get(DcMotor.class, "rf");
 
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        duckyMover = hwMap.get(DcMotor.class, "duckyMotor");
+
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //TO DO: change to using encoders
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -57,11 +60,15 @@ public class FreightBotInfo {
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         //frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        duckyMover.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        duckyTicksPerRev = duckyMover.getMotorType().getTicksPerRev();
       /*  backLeftTicksPerRev = backLeft.getMotorType().getTicksPerRev();
         backRightTicksPerRev = backRight.getMotorType().getTicksPerRev();
         frontLeftTicksPerRev = frontLeft.getMotorType().getTicksPerRev();
@@ -101,7 +108,9 @@ public class FreightBotInfo {
         backRight.setTargetPosition(verticalPos + (horizontalPos - 0));
     }
 
-
+    public double getMotorRotations(DcMotor motor){
+        return motor.getCurrentPosition() / duckyTicksPerRev;
+    }
 
 
     public double getHeading(AngleUnit angleUnit) {
