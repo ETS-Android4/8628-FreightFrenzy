@@ -26,7 +26,7 @@ public class FreightBotInfo {
     public DcMotor duckyMover;
 
     //encoders
-    private double duckyTicksPerRev;
+
     private double backLeftTicksPerRev;
     private double backRightTicksPerRev;
     private double frontLeftTicksPerRev;
@@ -36,12 +36,12 @@ public class FreightBotInfo {
     private BNO055IMU imu;
 
     //mecanum?
-    public MecanumDriveBase mecanumDriveBase;
+ //   public MecanumDriveBase mecanumDriveBase;
 
 
     public void init(HardwareMap hwMap) {
 
-        mecanumDriveBase = new MecanumDriveBase(frontLeft, frontRight, backLeft, backRight);
+  //      mecanumDriveBase = new MecanumDriveBase(frontLeft, frontRight, backLeft, backRight);
         //drivetrain systems
 
         backLeft = hwMap.get(DcMotor.class, "lb");
@@ -49,35 +49,36 @@ public class FreightBotInfo {
         frontLeft = hwMap.get(DcMotor.class, "lf");
         frontRight = hwMap.get(DcMotor.class, "rf");
 
-        duckyMover = hwMap.get(DcMotor.class, "duckyMotor");
 
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //TO DO: change to using encoders
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        //frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        duckyMover.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        duckyTicksPerRev = duckyMover.getMotorType().getTicksPerRev();
-      /*  backLeftTicksPerRev = backLeft.getMotorType().getTicksPerRev();
+
+        backLeftTicksPerRev = backLeft.getMotorType().getTicksPerRev();
         backRightTicksPerRev = backRight.getMotorType().getTicksPerRev();
         frontLeftTicksPerRev = frontLeft.getMotorType().getTicksPerRev();
         frontRightTicksPerRev = frontRight.getMotorType().getTicksPerRev();
-*/
+
 
         //modules
-        //launcher module stuff
-
+        duckyMover = hwMap.get(DcMotor.class, "duckyMotor");
+        duckyMover.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //imu
         imu = hwMap.get(BNO055IMU.class, "imu");
@@ -88,7 +89,7 @@ public class FreightBotInfo {
 
     }
 
-    //test mecanum
+    //mecanum
     public void mecanumDrive(double forward, double sideways, double rotation){
 
         // Set the power of each motor
@@ -108,10 +109,18 @@ public class FreightBotInfo {
         backRight.setTargetPosition(verticalPos + (horizontalPos - 0));
     }
 
-    public double getMotorRotations(DcMotor motor){
-        return motor.getCurrentPosition() / duckyTicksPerRev;
+   public double getFLMotorRotations(){
+        return frontLeft.getCurrentPosition() / frontLeftTicksPerRev;
     }
-
+    public double getFRMotorRotations(){
+        return frontRight.getCurrentPosition() / frontRightTicksPerRev;
+    }
+    public double getBLMotorRotations(){
+        return backLeft.getCurrentPosition() / backLeftTicksPerRev;
+    }
+    public double getBRMotorRotations(){
+        return backRight.getCurrentPosition() / backRightTicksPerRev;
+    }
 
     public double getHeading(AngleUnit angleUnit) {
         Orientation angles = imu.getAngularOrientation(AxesReference.EXTRINSIC,
