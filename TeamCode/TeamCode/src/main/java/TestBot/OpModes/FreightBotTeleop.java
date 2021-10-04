@@ -20,11 +20,17 @@ public class FreightBotTeleop extends OpMode {
 
     @Override
     public void loop() {
-        //telemetry.addData("Our Heading", robot.getHeading(AngleUnit.DEGREES));
-        telemetry.addData("Ducky Motor Rotations", robot.getMotorRotations(robot.duckyMover));
-        //robot.getMotorRevolutions();
+
+        telemetry.addData("Our Heading", robot.getHeading(AngleUnit.DEGREES));
+        telemetry.addData("front left Motor Rotations", robot.getFLMotorRotations());
+        telemetry.addData("front right Motor Rotations", robot.getFRMotorRotations());
+        telemetry.addData("back left Motor Rotations", robot.getBLMotorRotations());
+        telemetry.addData("back right Motor Rotations", robot.getBRMotorRotations());
+
         //mecanum drive
         robot.mecanumDrive(gamepad1.right_stick_y, -gamepad1.right_stick_x, -gamepad1.left_stick_x);
+
+        //ducky mover
         if(gamepad1.a){
             robot.duckyMover.setPower(0.5);
         }
