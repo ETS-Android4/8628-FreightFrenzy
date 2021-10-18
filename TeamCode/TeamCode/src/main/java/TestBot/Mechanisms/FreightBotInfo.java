@@ -1,6 +1,7 @@
 package TestBot.Mechanisms;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -17,13 +18,15 @@ public class FreightBotInfo {
 
     //define motors
 
-    private DcMotor backLeft;
-    private DcMotor backRight;
-    private DcMotor frontLeft;
-    private DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
 
-    //modules!
-    public DcMotor duckyMover;
+
+    //modules
+    public CRServo duckyMover;
+    public DcMotor moduleA;
 
     //encoders
 
@@ -76,10 +79,11 @@ public class FreightBotInfo {
 
 
         //modules
-        duckyMover = hwMap.get(DcMotor.class, "duckyMotor");
-        duckyMover.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        duckyMover = hwMap.get(CRServo.class, "duckyMover");
 
+        moduleA = hwMap.get(DcMotor.class,"moduleA");
+        moduleA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        moduleA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //imu
         imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters params = new BNO055IMU.Parameters();
@@ -109,6 +113,16 @@ public class FreightBotInfo {
         backRight.setTargetPosition(verticalPos + (horizontalPos - 0));
     }
 
+    public void timedDucky(double timeout, double currentTime, double startTime, double power){
+        while(timeout<currentTime-startTime){
+        duckyMover.setPower(power);
+        }
+        duckyMover.setPower(0);
+    }
+
+    public double getTicksPerRev(){
+        return frontLeftTicksPerRev;
+    }
    public double getFLMotorRotations(){
         return frontLeft.getCurrentPosition() / frontLeftTicksPerRev;
     }
@@ -121,6 +135,8 @@ public class FreightBotInfo {
     public double getBRMotorRotations(){
         return backRight.getCurrentPosition() / backRightTicksPerRev;
     }
+
+
 
     public double getHeading(AngleUnit angleUnit) {
         Orientation angles = imu.getAngularOrientation(AxesReference.EXTRINSIC,
