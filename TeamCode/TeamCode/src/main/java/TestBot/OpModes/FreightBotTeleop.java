@@ -40,7 +40,7 @@ public class FreightBotTeleop extends OpMode {
             robot.duckyMover.setPower(0);
         }
 
-        //alistair's lifting module
+        //alistair's lifting module motor
         if (gamepad1.x) {
             robot.moduleA.setPower(1.0);
         } else if (gamepad1.y){
@@ -48,8 +48,35 @@ public class FreightBotTeleop extends OpMode {
         } else {
             robot.moduleA.setPower(0);
         }
+
+        //alistair's lifting module servo
+        if (gamepad1.left_bumper) {
+            robot.liftServo(1); //closed
+        } else if (gamepad1.right_bumper) {
+            robot.liftServo(0.0);
+        }
+        //jonah's intake servo
+        if (gamepad2.x) {
+            robot.intakeMotor.setPower(1);
+        } else if (gamepad2.y){
+            robot.intakeMotor.setPower(-1);
+        } else {
+            robot.intakeMotor.setPower(0);
+        }
+
+        //jonah's lift motor
+        if (gamepad2.left_stick_y>0) {
+            robot.liftMotor.setPower(1);
+        } else if (gamepad2.left_stick_y<0) {
+            robot.liftMotor.setPower(-1);
+        } else {
+            robot.liftMotor.setPower(0);
+        }
     }
+
 }
+
+
 
 
 
