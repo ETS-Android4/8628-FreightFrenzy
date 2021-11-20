@@ -3,7 +3,7 @@ package TestBot.Mechanisms;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
+@Disabled
 @Autonomous(name = "SimpleTestAuto")
 public class SimpleTestAuto extends OpMode {
     enum State {

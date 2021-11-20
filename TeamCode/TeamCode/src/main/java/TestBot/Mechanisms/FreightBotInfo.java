@@ -13,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.net.PortUnreachableException;
+
 
 public class FreightBotInfo {
 
@@ -25,10 +27,14 @@ public class FreightBotInfo {
 
 
     //modules
-    public CRServo duckyMover;
-    public DcMotor moduleA;
+    public DcMotor duckyMover;
+    public Servo liftServo;
+    public DcMotor intakeMotor;
+    public DcMotor liftMotor;
+    public Servo elevatorServo;
+    public Servo touchServo;
+    public Servo magnetServo;
 
-    //encoders
 
     private double backLeftTicksPerRev;
     private double backRightTicksPerRev;
@@ -37,9 +43,6 @@ public class FreightBotInfo {
 
     //imu
     private BNO055IMU imu;
-
-    //mecanum?
- //   public MecanumDriveBase mecanumDriveBase;
 
 
     public void init(HardwareMap hwMap) {
@@ -79,11 +82,33 @@ public class FreightBotInfo {
 
 
         //modules
-        duckyMover = hwMap.get(CRServo.class, "duckyMover");
+        //duckyMover = hwMap.get(CRServo.class, "duckyMover");
+        duckyMover = hwMap.get(DcMotor.class,"duckyMover");
+        duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        duckyMover.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        moduleA = hwMap.get(DcMotor.class,"moduleA");
-        moduleA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        moduleA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // get servo
+        touchServo = hwMap.get(Servo.class, "touchServo");
+
+        liftServo = hwMap.get(Servo.class, "liftServo" );
+
+        intakeMotor = hwMap.get(DcMotor.class,"intakeMotor");
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        liftMotor = hwMap.get(DcMotor.class,"liftMotor");
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        elevatorServo = hwMap.get(Servo.class, "elevatorServo");
+
+        magnetServo = hwMap.get(Servo.class, "magnetServo");
+
+
+
+
         //imu
         imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters params = new BNO055IMU.Parameters();
@@ -105,19 +130,17 @@ public class FreightBotInfo {
 
     }
 
-    public void mecanumTargetPos(int horizontalPos, int verticalPos){
-        // Set the position of each motor
-        frontLeft.setTargetPosition((verticalPos + horizontalPos + 0));
-        frontRight.setTargetPosition((verticalPos - horizontalPos) - 0);
-        backLeft.setTargetPosition((verticalPos - horizontalPos) + 0 );
-        backRight.setTargetPosition(verticalPos + (horizontalPos - 0));
-    }
+
 
     public void timedDucky(double timeout, double currentTime, double startTime, double power){
         while(timeout<currentTime-startTime){
         duckyMover.setPower(power);
         }
         duckyMover.setPower(0);
+    }
+//lift servo test
+    public void liftServo(double position){
+        liftServo.setPosition(position);
     }
 
     public double getTicksPerRev(){
@@ -135,7 +158,6 @@ public class FreightBotInfo {
     public double getBRMotorRotations(){
         return backRight.getCurrentPosition() / backRightTicksPerRev;
     }
-
 
 
     public double getHeading(AngleUnit angleUnit) {
