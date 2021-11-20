@@ -1,32 +1,3 @@
-/* Copyright (c) 2019 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package TestBot.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,11 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the Freight Frenzy game elements.
@@ -51,8 +23,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @Disabled
-@Autonomous
-public class autonomousTypeThing extends LinearOpMode {
+@Autonomous(name = "WebcamDuck", group = "Concept")
+
+public class WebcamDuck extends LinearOpMode {
     /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
      * the following 4 detectable objects
      *  0: Ball,
@@ -64,29 +37,13 @@ public class autonomousTypeThing extends LinearOpMode {
      *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
      *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
      */
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
-    private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
-    };
-
-    /*
-     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-     * web site at https://developer.vuforia.com/license-manager.
-     *
-     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-     * random data. As an example, here is a example of a fragment of a valid key:
-     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-     * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
-     */
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
     private static final String VUFORIA_KEY =
             "AV2hPmr/////AAABmQLD9hUunkK4tSZiwFAlrpZPoN76Ej8hCf1AdzRK5+dWdO6VF0iKY/cqgZLxkQ4RCD0KXMvXtiUx87IkUWaghhJYq446Zx2MDU12MXtsE9hq8p3alcdmCCvCun+veOD/mwKlEXDnZYl8jMzxcCOpEqr3Uc2MzsjpFbrdr+m5tYXmNAKQrN9Bq4VALSSl/pUhk1/swPiJenMa938xu0pN4C+xuOCyAmNX44yln0q8GnoGmtmdMCg3NTOiEDm6K/fFTLI1nWN2LOWzVQZ88Ul0EIjgdTfA+DYgz5O8AS/leZcUn7WTbPbhy/5NaqorhI+6u1YMYYFaPq41j3lenoUU+6DdfK133dZ8+M57EvFVXJSv";
-
+    double lastTime;
+    DcMotor motorTest;
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
@@ -103,32 +60,41 @@ public class autonomousTypeThing extends LinearOpMode {
     public void runOpMode() {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
+        telemetry.addData(">", "Here");
+        telemetry.update();
         initVuforia();
+        telemetry.addData(">", "Here1.5");
+        telemetry.update();
         initTfod();
+        motorTest = hardwareMap.get(DcMotor.class, "motorTest");
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
+        telemetry.addData(">", "Here2");
         if (tfod != null) {
             tfod.activate();
-
             // The TensorFlow software will scale the input images from the camera to a lower resolution.
             // This can result in lower detection accuracy at longer distances (> 55cm or 22").
             // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0);
+            tfod.setZoom(1.0, 16.0/9.0);
         }
-
+        /** Wait for the game to begin */
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-
+        String scoringObject = "none";
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            telemetry.addData(">", "u Pressed Play to start op mode");
+            telemetry.update();
+            lastTime = getRuntime();
+            telemetry.addData("Runtime:",lastTime);
+            while (opModeIsActive() && scoringObject.equals("none") || getRuntime()-lastTime<=5.0) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -139,19 +105,27 @@ public class autonomousTypeThing extends LinearOpMode {
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
                             telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                            i++;
+                            scoringObject = recognition.getLabel();
                         }
                         telemetry.update();
+                        lastTime = getRuntime();
+                        break;
                     }
                 }
             }
         }
+        telemetry.addData("before", "!");
+        sleep(500);
+        if (opModeIsActive()) {
+            telemetry.addData("after", "!");
+            sleep(500);
+            if (scoringObject.equals("Quad")) {
+                //strafe to wall, move forward to square between 0 and 4, turn 180 degrees, drop wobble goal
+                telemetry.addData("There are 4 rings there. MOVE TO C", "!");
+                telemetry.update();
+            }
+        }
     }
-
     /**
      * Initialize the Vuforia localization engine.
      */
@@ -181,7 +155,6 @@ public class autonomousTypeThing extends LinearOpMode {
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 }
-
