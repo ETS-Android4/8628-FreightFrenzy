@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.R;
@@ -14,7 +15,11 @@ import TestBot.Mechanisms.MecanumDriveBase;
 @TeleOp(name = "FreightBotTeleop")
 public class FreightBotTeleop extends OpMode {
     FreightBotInfo robot = new FreightBotInfo();
-
+    private ElapsedTime runtime = new ElapsedTime();
+    boolean singleButtonPress = false;
+    int stage;
+    int goal;
+    int liftEncoderGoal;
     @Override
     public void init(){
         robot.init(hardwareMap);
@@ -50,24 +55,44 @@ public class FreightBotTeleop extends OpMode {
             robot.elevatorServo.setPosition(.5); //vertical
         }
 
+        if (gamepad1.dpad_up){
+            singleButtonPress=true;
+            stage=1;
+            goal=0;
+            liftEncoderGoal=-1600;
+        } else if(gamepad1.dpad_down){
+            singleButtonPress=true;
+            stage=1;
+            goal=1;
+            liftEncoderGoal=-1600;
+        }
 
 
-       /* //INTAKE MOTOR gp 1
-        if (gamepad1.a) {
-            robot.intakeMotor.setPower(.3); //take it in
-        } else if (gamepad1.b) {
-            robot.intakeMotor.setPower(-.3); //let it goooooo
-        } else {
-            robot.intakeMotor.setPower(0);
-        }*/
 
-       /* //elevator servo //INTAKE MOTOR
-        if (gamepad1.a) {
-            robot.elevatorServo.setPosition(0.7);  //horizontal
-        } else if (gamepad1.b) {
-            robot.elevatorServo.setPosition(0.5); //vertical
-        }*/
-//INTAKE MOTOR GP2
+        if(singleButtonPress&&(robot.liftMotor.getCurrentPosition()>liftEncoderGoal)){
+
+            robot.liftMotor.setPower(1);
+
+        } else if(singleButtonPress&&robot.liftMotor.getCurrentPosition()<liftEncoderGoal){
+            // Stop all motion;
+            robot.liftMotor.setPower(0);
+            if(stage==1) {
+                robot.liftServo(0.3); //middle
+                stage++;
+                if (stage == 2 && goal == 0) {
+                    liftEncoderGoal = -2500;
+                } else if (stage == 2 && goal == 1) {
+                    liftEncoderGoal = -4900;
+                }
+            } else if(stage==2){
+                singleButtonPress=false;
+                stage=0;
+                liftEncoderGoal=-300;
+            }
+        }
+
+
+
         if(gamepad2.a){
             robot.elevatorServo.setPosition(0.7); //horizontal
         } else if (gamepad2.b) {
@@ -109,22 +134,10 @@ public class FreightBotTeleop extends OpMode {
 
 
 
-        //FIN
-/*
-        if(gamepad2.dpad_up){
-            robot.magnetServo.setPosition(.7); //not sure where this will be
-        } else if(gamepad2.dpad_down){
-            robot.magnetServo.setPosition(.5); //again this could do anything
-        }
-
-        if(gamepad2.dpad_left){
-            robot.touchServo.setPosition(.7); //not sure where this will be
-        } else if(gamepad2.dpad_right){
-            robot.touchServo.setPosition(0); //again this could do anything
-        }*/
-
-
     }
+
+
+
 }
 
 
