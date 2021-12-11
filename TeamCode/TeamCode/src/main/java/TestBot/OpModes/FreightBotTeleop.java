@@ -45,7 +45,7 @@ public class FreightBotTeleop extends OpMode {
         } else if (gamepad1.y) {
             robot.liftServo(0); //loading position
         } else if (gamepad1.a) {
-            robot.liftServo(0.3); //middle
+            robot.liftServo(0.4); //middle
         }
 
         //ELEVATOR SERVO
@@ -126,8 +126,12 @@ public class FreightBotTeleop extends OpMode {
             robot.liftMotor.setPower(0);
         }
 
-
-
+        //touch sensor
+        if(gamepad1.left_bumper){
+            robot.touchServo.setPosition(0); //horizontal
+        } else if (gamepad1.right_bumper) {
+            robot.touchServo.setPosition(0.5); //vertical
+        }
 
 
 
