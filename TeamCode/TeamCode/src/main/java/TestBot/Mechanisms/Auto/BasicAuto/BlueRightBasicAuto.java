@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import TestBot.Mechanisms.FreightBotInfo;
 
+@Disabled
 @Autonomous(name="BlueRightBasicAuto")
 
 public class  BlueRightBasicAuto extends LinearOpMode {
@@ -72,7 +73,6 @@ public class  BlueRightBasicAuto extends LinearOpMode {
         while(3>runtime.seconds()){           //SPIN DUCKY
             robot.duckyMover.setPower(-.05);
         }
-        //sleep(5000);
         robot.duckyMover.setPower(0);
        /*encoderDrive(DRIVE_SPEED,10,10,2.0); //back 2 inches
         encoderDrive(DRIVE_SPEED,5,5,2.0);

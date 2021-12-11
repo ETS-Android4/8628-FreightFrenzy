@@ -19,7 +19,7 @@ import TestBot.Mechanisms.FreightBotInfo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 
-@Autonomous(name = "RedTouchSensorAuto", group = "Sensor")
+@Autonomous(name = "RedTouchSensorWarehouse", group = "Sensor")
 
 public class RedTouchSensor extends LinearOpMode {
     /* Copyright (c) 2017 FIRST. All rights reserved.
@@ -69,12 +69,13 @@ public class RedTouchSensor extends LinearOpMode {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.6;
+    static final double DRIVE_SLOW = 0.2;
     static final double TURN_SPEED = 0.5;
     DigitalChannel digitalTouch;  // Hardware Device Object
 
     int robotPosition = 0;
 
-
+//OUR ORIGINAL touch sensor program for the red side, RED LEFT -
     @Override
     public void runOpMode() {
 
@@ -125,7 +126,7 @@ public class RedTouchSensor extends LinearOpMode {
             // if the digital channel returns true it's HIGH and the button is unpressed.
             digitalTouch.setState(true);
             encoderDrive(DRIVE_SPEED, -10,10,3.0);
-            encoderDrive(DRIVE_SPEED, 15.5, 15.5, 3); //strafe right to line up touch sensor
+            encoderDrive(DRIVE_SPEED, 16, 16, 3); //strafe right to line up touch sensor
             robot.touchServo.setPosition(.5);
             sleep(2000);
 
@@ -137,16 +138,16 @@ public class RedTouchSensor extends LinearOpMode {
                 //Move servo backward
                 robot.touchServo.setPosition(0);
                 robotPosition = 3;
-                runThree();
-                sleep(20000);
+                runOne();
+                //sleep(20000);
             } else{
                 //    move right 6 and test that box
                 sleep(3000);
                 telemetry.addData("Digital Touch", "not pressed");
                 telemetry.update();
                 robot.touchServo.setPosition(0);
-                encoderDrive(DRIVE_SPEED,-6, -6, 3.0); //forawrd
-                encoderDrive(DRIVE_SPEED,10, -10, 3.0); //LEFT
+                encoderDrive(DRIVE_SPEED,-6, -6, 3.0); //forward
+                encoderDrive(DRIVE_SPEED,11, -11, 3.0); //LEFT
                 encoderDrive(DRIVE_SPEED,6, 6, 3.0); //back
                 digitalTouch.setMode(DigitalChannel.Mode.INPUT);
                 digitalTouch.setState(true);
@@ -160,7 +161,7 @@ public class RedTouchSensor extends LinearOpMode {
                     robot.touchServo.setPosition(0);
                     robotPosition = 2;
                     runTwo();
-                    sleep(20000);
+                    //sleep(20000);
                 } else{
                     //       at position 1, run bottom one
                     telemetry.addData("Digital Touch", "not pressed");
@@ -168,11 +169,22 @@ public class RedTouchSensor extends LinearOpMode {
                     robotPosition = 1;
 
                     robot.touchServo.setPosition(0);
-                    runOne();
+                    runThree();
 
-                    sleep(20000);
-                }
-            }
+                    //sleep(20000);
+                }}
+                //telemetry.addData("PARKING NOW", robotPosition);
+                encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+                robot.elevatorServo.setPosition(.5);
+                turnLeft(TURN_SPEED, .9);
+                encoderDrive(DRIVE_SPEED, 12,-12,3.0);
+
+                encoderDrive(DRIVE_SPEED, 13,-13,3.0);
+                encoderDrive(DRIVE_SPEED, 55,55,4.0);
+                sleep(20000);
+
+
 
             telemetry.update();
         }
@@ -181,61 +193,83 @@ public class RedTouchSensor extends LinearOpMode {
 
     public void runOne(){
         telemetry.addData("Running route", "1");
-        encoderDrive(TURN_SPEED, -20,20,4.0); //strafe right
-        encoderDrive(DRIVE_SPEED, 8,8,2);
+        encoderDrive(DRIVE_SPEED, -6,-6,2);
+        // turnLeft(TURN_SPEED,.4);
+        encoderDrive(DRIVE_SPEED,-17,17,2.0);
+        encoderDrive(DRIVE_SPEED,12,12,2);
         liftXRail(-1600);
         //pivot box all the way
-        robot.liftServo.setPosition(0.3); //middle
+        robot.liftServo.setPosition(0.4); //middle
         sleep(800);
         liftXRail(-2500);//CHANGE
         sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
-        robot.liftServo.setPosition(.3);
+        robot.elevatorServo.setPosition(.6);
+        sleep(300);
+        robot.liftServo.setPosition(.4);
         sleep(1000);
         liftXRail(-1600);
-        encoderDrive(DRIVE_SPEED, -60,60, 4); //right
+        robot.elevatorServo.setPosition(.5);
+        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
+        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
+        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
+        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
     }
     public void runTwo(){
 
         robot.elevatorServo.setPosition(.5);
         telemetry.addData("Running route", "2");
         telemetry.update();
-        encoderDrive(TURN_SPEED, -20,20,4.0); //strafe right
-        encoderDrive(DRIVE_SPEED, 6,6,2);
+        encoderDrive(DRIVE_SPEED, -6,-6,2);
+        // turnLeft(TURN_SPEED,.4);
+        encoderDrive(DRIVE_SPEED,-25,25,2.0);
+        robot.elevatorServo.setPosition(.8);
+        encoderDrive(DRIVE_SPEED,8.5,8.5,2);
+        encoderDrive(DRIVE_SLOW,2,2,2);
         liftXRail(-1600);
         //pivot box all the way
-        robot.liftServo.setPosition(0.3); //middle
+        robot.liftServo.setPosition(0.4); //middle
         sleep(800);
-        robot.elevatorServo.setPosition(.7);
         sleep(1000);
         liftXRail(-2500);//CHANGE
         sleep(800);
         robot.liftServo.setPosition(1);
-        sleep(1000);
-        robot.liftServo.setPosition(.3);
-        sleep(1000);
+        sleep(900);
+        robot.liftServo.setPosition(.4);
+        sleep(900);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
-        encoderDrive(DRIVE_SPEED, -58,58, 4); //right
+        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
+        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
+        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
+        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
     }
     public void runThree(){
         telemetry.addData("Running route", "3");
-        encoderDrive(TURN_SPEED, -14,14,4.0); //strafe right
-        encoderDrive(DRIVE_SPEED, 8,8,2);
+
+        //encoderDrive(TURN_SPEED, -4,4,4.0); //strafe right
+        encoderDrive(DRIVE_SPEED, -6,-6,2);
+       // turnLeft(TURN_SPEED,.4);
+        encoderDrive(DRIVE_SPEED,-18,18,2.0);
+        encoderDrive(DRIVE_SPEED,7,7,2);
+        encoderDrive(DRIVE_SLOW,2.5,2.5,2);
         liftXRail(-1600);
         //pivot box all the way
-        robot.liftServo(0.3); //middle
+        robot.liftServo(0.4); //middle
         sleep(800);
-        liftXRail(-4900);
-        sleep(1000);
+        liftXRail(-6300);
+        sleep(1300);
         robot.liftServo.setPosition(1); //dump box
         sleep(800);
-        robot.liftServo.setPosition(.3);//middle
+        robot.liftServo.setPosition(.4);//middle
         sleep(1000);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
-        encoderDrive(DRIVE_SPEED, -61,61, 4);//strafe right
+        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
+        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
+        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
+        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
     }
 
 
@@ -265,7 +299,46 @@ public class RedTouchSensor extends LinearOpMode {
             robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+    public void turnLeft (double power, double timeout){
+        if (opModeIsActive()) {
 
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < timeout) ){
+                robot.backRight.setPower(power);
+                robot.frontRight.setPower(power);
+                robot.backLeft.setPower(-power);
+                robot.frontLeft.setPower(-power);
+            }
+            robot.frontLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.backRight.setPower(0);
+        }
+    }
+    public void turnRight (double power, double timeout){
+        if (opModeIsActive()) {
+
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < timeout) ){
+                robot.backRight.setPower(-power);
+                robot.frontRight.setPower(-power);
+                robot.backLeft.setPower(power);
+                robot.frontLeft.setPower(power);
+            }
+            robot.frontLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.backRight.setPower(0);
+        }
+    }
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {

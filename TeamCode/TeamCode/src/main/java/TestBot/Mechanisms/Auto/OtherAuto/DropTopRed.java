@@ -23,7 +23,7 @@ import TestBot.Mechanisms.FreightBotInfo;
  */
 
 @Autonomous(name = "DropTopRed", group = "Sensor")
-
+@Disabled
 public class DropTopRed extends LinearOpMode {
     /* Copyright (c) 2017 FIRST. All rights reserved.
      *

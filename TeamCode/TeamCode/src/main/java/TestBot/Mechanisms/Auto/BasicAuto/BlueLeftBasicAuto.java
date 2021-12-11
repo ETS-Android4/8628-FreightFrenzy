@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 import TestBot.Mechanisms.FreightBotInfo;
-
+@Disabled
 @Autonomous(name="BlueLeftBasicAuto")
 
 public class  BlueLeftBasicAuto extends LinearOpMode {

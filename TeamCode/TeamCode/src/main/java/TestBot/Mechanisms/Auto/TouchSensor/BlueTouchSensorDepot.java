@@ -1,6 +1,7 @@
 package TestBot.Mechanisms.Auto.TouchSensor;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -19,9 +20,9 @@ import TestBot.Mechanisms.FreightBotInfo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 
-@Autonomous(name = "BlueTouchSensorWarehouse", group = "Sensor")
+@Autonomous(name = "BlueTouchSensorDepot", group = "Sensor")
 
-public class BlueTouchSensor extends LinearOpMode {
+public class BlueTouchSensorDepot extends LinearOpMode {
     /* Copyright (c) 2017 FIRST. All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -74,7 +75,7 @@ public class BlueTouchSensor extends LinearOpMode {
     DigitalChannel digitalTouch;  // Hardware Device Object
 
     int robotPosition = 0;
-// our original touch sensor program for blue
+
 
     @Override
     public void runOpMode() {
@@ -144,9 +145,9 @@ public class BlueTouchSensor extends LinearOpMode {
                 telemetry.addData("Digital Touch", "not pressed");
                 telemetry.update();
                 robot.touchServo.setPosition(0);
-                encoderDrive(DRIVE_SPEED,-6, -6, 3.0);
-                encoderDrive(DRIVE_SPEED,-9, 9, 3.0);
-                encoderDrive(DRIVE_SPEED,5, 5, 3.0);
+                encoderDrive(DRIVE_SPEED,-6, -6, 3.0); //forward
+                encoderDrive(DRIVE_SPEED,-10, 10, 3.0); //towards warehouse
+                encoderDrive(DRIVE_SPEED,5, 5, 3.0); //back
                 digitalTouch.setMode(DigitalChannel.Mode.INPUT);
                 digitalTouch.setState(true);
                 robot.touchServo.setPosition(.5);
@@ -172,35 +173,45 @@ public class BlueTouchSensor extends LinearOpMode {
                     sleep(1000);
                 }
             }
-                 telemetry.addData("PARKING NOW", robotPosition);
-                 encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-                robot.elevatorServo.setPosition(.5);
-                 turnRight(TURN_SPEED, .9);
-                 encoderDrive(DRIVE_SPEED, -12,12,3.0);
-                 encoderDrive(DRIVE_SPEED, -12,12,3.0);
+            //go back
+            encoderDrive(DRIVE_SPEED,-30,-30,2.0);
+            //turn towards carousel
 
-                 encoderDrive(DRIVE_SPEED, 55,55,5.0);
-                 telemetry.addData("sensor up",robotPosition);
-                 robot.touchServo.setPosition(0);
-                 sleep(20000);
-             }
+            robot.elevatorServo.setPosition(.5);
+            turnLeft(TURN_SPEED,.9);
+            sleep(500);
+            encoderDrive(DRIVE_SLOW,7,-7,3.0);
 
+            //go forwards to carousel
+            encoderDrive(DRIVE_SPEED,-31,-31,4.0);
+            encoderDrive(DRIVE_SLOW,-5,-5,3.0);
 
-
+            //spin carousel
+            runtime.reset();
+            while(4>runtime.seconds()){           //SPIN DUCKY
+                robot.duckyMover.setPower(-.03);
+            }
+            robot.duckyMover.setPower(0);
+            //back to depot
+            encoderDrive(DRIVE_SPEED,18.5,18.5,3.0);
             telemetry.update();
-
-
+            stop();
         }
 
-
+    }
 
     public void runOne(){
+        //backwards
+        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+        //turn right
+        turnRight(TURN_SPEED,.9);
+        //go to cupcake holder (shipping hub)
+        encoderDrive(DRIVE_SPEED,-6,-6,3.0);
         telemetry.addData("Running route", "1");
-        encoderDrive(DRIVE_SPEED, -3,-3,1.0);
-        encoderDrive(TURN_SPEED, 31,-31,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED,8,8,2);
-        encoderDrive(DRIVE_SLOW, 4,4,2);
+        telemetry.update();
+        encoderDrive(TURN_SPEED, 33,-33,4.0); //strafe right
+        encoderDrive(DRIVE_SPEED, 9,9,3.0);// drive forward
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
@@ -215,17 +226,21 @@ public class BlueTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.elevatorServo.setPosition(.5);
+
     }
     public void runTwo(){
-
-        robot.elevatorServo.setPosition(.5);
-        telemetry.addData("Running route", "2");
+        //backwards
+        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+        //turn right
+        turnRight(TURN_SPEED,.9);
+        //go to cupcake holder (shipping hub)
+        encoderDrive(DRIVE_SPEED,-6,-6,3.0);
+        telemetry.addData("Running route", "1");
         telemetry.update();
-        encoderDrive(DRIVE_SPEED, -3,-3,1.0);
-        encoderDrive(TURN_SPEED, 34,-34,4.0); //strafe left
+        encoderDrive(TURN_SPEED, 30.5,-30.5,4.0); //strafe right
         robot.elevatorServo.setPosition(.8);
-        encoderDrive(DRIVE_SPEED, 5.5,5.5,2);
-        encoderDrive(DRIVE_SLOW, 4,4,2);
+        encoderDrive(DRIVE_SPEED, 7,7,2);// drive forward
+        encoderDrive(DRIVE_SLOW,2,2,2);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
@@ -242,10 +257,17 @@ public class BlueTouchSensor extends LinearOpMode {
         //encoderDrive(DRIVE_SPEED, -58,58, 4); //right
     }
     public void runThree(){
+        //backwards
+        encoderDrive(DRIVE_SPEED,-10,-10,2.0);
+        //turn right
+        turnRight(TURN_SPEED,.85);
         telemetry.addData("Running route", "3");
-        encoderDrive(TURN_SPEED, 25,-25,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 5,5,2);
-        encoderDrive(DRIVE_SLOW, 4,4,2);
+        telemetry.update();
+        encoderDrive(TURN_SPEED, 38.5,-38.5,4.0); //strafe left
+        encoderDrive(DRIVE_SPEED, 8,8,2); //correcting 6 inches for different start position
+        encoderDrive(DRIVE_SLOW,2.5,2.5,1);
+        //slow forward to get to carousel
+        encoderDrive(DRIVE_SLOW,2,2,2.0);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo(0.4); //middle
@@ -258,8 +280,8 @@ public class BlueTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
-    }
 
+    }
 
 
     public void liftXRail(int position){
@@ -287,7 +309,6 @@ public class BlueTouchSensor extends LinearOpMode {
             robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
-
     public void turnLeft (double power, double timeout){
         if (opModeIsActive()) {
 
@@ -328,7 +349,6 @@ public class BlueTouchSensor extends LinearOpMode {
             robot.backRight.setPower(0);
         }
     }
-
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
