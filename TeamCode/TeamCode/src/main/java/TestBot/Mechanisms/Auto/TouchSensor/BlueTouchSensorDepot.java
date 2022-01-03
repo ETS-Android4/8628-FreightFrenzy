@@ -139,7 +139,7 @@ public class BlueTouchSensorDepot extends LinearOpMode {
                 robot.touchServo.setPosition(0);
                 robotPosition = 1;
                 runThree();
-                sleep(2000);
+                sleep(1000);
             } else{
                 //    move right 6 and test that barcode (2)
                 telemetry.addData("Digital Touch", "not pressed");
@@ -151,7 +151,7 @@ public class BlueTouchSensorDepot extends LinearOpMode {
                 digitalTouch.setMode(DigitalChannel.Mode.INPUT);
                 digitalTouch.setState(true);
                 robot.touchServo.setPosition(.5);
-                sleep(1000);
+                sleep(500);
                 if(digitalTouch.getState() == false){
                     //       at position 2, run middle one
                     telemetry.addData("Digital Touch", "Is Pressed");
@@ -160,7 +160,7 @@ public class BlueTouchSensorDepot extends LinearOpMode {
                     robot.touchServo.setPosition(0);
                     robotPosition = 2;
                     runTwo();
-                    sleep(1000);
+                    sleep(500);
                 } else{
                     //       at position 3, run top one
                     telemetry.addData("Digital Touch", "not pressed");
@@ -170,31 +170,11 @@ public class BlueTouchSensorDepot extends LinearOpMode {
                     robot.touchServo.setPosition(0);
                     runOne();
 
-                    sleep(1000);
+                    sleep(500);
                 }
             }
 
-            //go back
-            encoderDrive(DRIVE_SPEED,-30,-30,2.0);
-            //turn towards carousel
 
-            robot.elevatorServo.setPosition(.5);
-            turnLeft(TURN_SPEED,.9);
-            sleep(500);
-            encoderDrive(DRIVE_SLOW,7,-7,3.0);
-
-            //go forwards to carousel
-            encoderDrive(DRIVE_SPEED,-31,-31,4.0);
-            encoderDrive(DRIVE_SLOW,-5,-5,3.0);
-
-            //spin carousel
-            runtime.reset();
-            while(4>runtime.seconds()){           //SPIN DUCKY
-                robot.duckyMover.setPower(-.03);
-            }
-            robot.duckyMover.setPower(0);
-            //back to depot
-            encoderDrive(DRIVE_SPEED,18.5,18.5,3.0);
             telemetry.update();
             stop();
         }
@@ -207,17 +187,19 @@ public class BlueTouchSensorDepot extends LinearOpMode {
         //turn right
         turnRight(TURN_SPEED,.9);
         //go to cupcake holder (shipping hub)
+
+        encoderDrive(DRIVE_SPEED,-5,-5,2.0);
         encoderDrive(DRIVE_SPEED,-6,-6,3.0);
         telemetry.addData("Running route", "1");
         telemetry.update();
         encoderDrive(TURN_SPEED, 33,-33,4.0); //strafe right
-        encoderDrive(DRIVE_SPEED, 9,9,3.0);// drive forward
+        encoderDrive(DRIVE_SPEED, 16,16,3.0);// drive forward
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
-        sleep(800);
+        sleep(1000);
         liftXRail(-2500);//CHANGE
-        sleep(800);
+        sleep(1000);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.elevatorServo.setPosition(.6);
@@ -225,8 +207,35 @@ public class BlueTouchSensorDepot extends LinearOpMode {
         robot.liftServo.setPosition(.4);
         sleep(1000);
         liftXRail(-1600);
+        robot.elevatorServo.setPosition(.7);
+        sleep(500);
+        robot.elevatorServo.setPosition(.5);
+        sleep(500);
+        robot.elevatorServo.setPosition(.7);
+        sleep(500);
         robot.elevatorServo.setPosition(.5);
 
+        //go back
+        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
+        //turn towards carousel
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED,.9);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,7,-7,3.0);
+
+        //go forwards to carousel
+        encoderDrive(DRIVE_SPEED,-33,-33,4.0);
+        encoderDrive(DRIVE_SLOW,-3,-3,3.0);
+
+        //spin carousel
+        runtime.reset();
+        while(5>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.015);
+        }
+        robot.duckyMover.setPower(0);
+        //back to depot
+        encoderDrive(DRIVE_SPEED,20,20,3.0);
     }
     public void runTwo(){
         //backwards
@@ -237,9 +246,9 @@ public class BlueTouchSensorDepot extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,-6,-6,3.0);
         telemetry.addData("Running route", "1");
         telemetry.update();
-        encoderDrive(TURN_SPEED, 30.5,-30.5,4.0); //strafe right
+        encoderDrive(TURN_SPEED, 30,-30,4.0); //strafe right
         robot.elevatorServo.setPosition(.8);
-        encoderDrive(DRIVE_SPEED, 7,7,2);// drive forward
+        encoderDrive(DRIVE_SPEED, 9,9,2);// drive forward
         encoderDrive(DRIVE_SLOW,2,2,2);
         liftXRail(-1600);
         //pivot box all the way
@@ -248,23 +257,45 @@ public class BlueTouchSensorDepot extends LinearOpMode {
         sleep(1000);
         liftXRail(-2500);//CHANGE
         sleep(800);
-        robot.liftServo.setPosition(1);
+        robot.liftServo.setPosition(1); //dump
         sleep(900);
         robot.liftServo.setPosition(.4);
         sleep(900);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
         //encoderDrive(DRIVE_SPEED, -58,58, 4); //right
+        //go back
+        encoderDrive(DRIVE_SPEED,-32,-32,2.0);
+        //turn towards carousel
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED,.9);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,7,-7,3.0);
+
+        //go forwards to carousel
+        encoderDrive(DRIVE_SPEED,-30,-30,4.0);
+        encoderDrive(DRIVE_SLOW,-3,-3,3.0);
+
+        //spin carousel
+        runtime.reset();
+        while(6>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.015);
+        }
+        robot.duckyMover.setPower(0);
+        //back to depot
+        encoderDrive(DRIVE_SPEED,18.5,18.5,3.0);
     }
     public void runThree(){
         //backwards
         encoderDrive(DRIVE_SPEED,-10,-10,2.0);
         //turn right
         turnRight(TURN_SPEED,.85);
+
         telemetry.addData("Running route", "3");
         telemetry.update();
-        encoderDrive(TURN_SPEED, 38.5,-38.5,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 8,8,2); //correcting 6 inches for different start position
+        encoderDrive(TURN_SPEED, 37,-37,4.0); //strafe left
+        encoderDrive(DRIVE_SPEED, 10,10,2); //correcting 6 inches for different start position
         encoderDrive(DRIVE_SLOW,2.5,2.5,1);
         //slow forward to get to carousel
         encoderDrive(DRIVE_SLOW,2,2,2.0);
@@ -281,6 +312,27 @@ public class BlueTouchSensorDepot extends LinearOpMode {
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
 
+        //go back
+        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
+        //turn towards carousel
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED,.9);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,7,-7,3.0);
+
+        //go forwards to carousel
+        encoderDrive(DRIVE_SPEED,-30,-30,4.0);
+        encoderDrive(DRIVE_SLOW,-3,-3,3.0);
+
+        //spin carousel
+        runtime.reset();
+        while(6>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.015);
+        }
+        robot.duckyMover.setPower(0);
+        //back to depot
+        encoderDrive(DRIVE_SPEED,18.5,18.5,3.0);
     }
 
 

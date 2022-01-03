@@ -174,16 +174,6 @@ public class RedTouchSensor extends LinearOpMode {
                     //sleep(20000);
                 }}
                 //telemetry.addData("PARKING NOW", robotPosition);
-                encoderDrive(DRIVE_SPEED, -4,-4,2.0);
-
-                robot.elevatorServo.setPosition(.5);
-                turnLeft(TURN_SPEED, .9);
-                encoderDrive(DRIVE_SPEED, 12,-12,3.0);
-
-                encoderDrive(DRIVE_SPEED, 13,-13,3.0);
-                encoderDrive(DRIVE_SPEED, 55,55,4.0);
-                sleep(20000);
-
 
 
             telemetry.update();
@@ -211,10 +201,19 @@ public class RedTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.elevatorServo.setPosition(.5);
-        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
-        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
-        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
-        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
+
+
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, 12,-12,3.0);
+
+        encoderDrive(DRIVE_SPEED, 13,-13,3.0);
+        encoderDrive(DRIVE_SPEED, 55,55,4.0);
+        sleep(20000);
+
+
     }
     public void runTwo(){
 
@@ -225,7 +224,7 @@ public class RedTouchSensor extends LinearOpMode {
         // turnLeft(TURN_SPEED,.4);
         encoderDrive(DRIVE_SPEED,-25,25,2.0);
         robot.elevatorServo.setPosition(.8);
-        encoderDrive(DRIVE_SPEED,8.5,8.5,2);
+        encoderDrive(DRIVE_SPEED,10,10,2);
         encoderDrive(DRIVE_SLOW,2,2,2);
         liftXRail(-1600);
         //pivot box all the way
@@ -240,10 +239,19 @@ public class RedTouchSensor extends LinearOpMode {
         sleep(900);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
-        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
-        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
-        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
-        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
+
+
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, 12,-12,3.0);
+
+        encoderDrive(DRIVE_SPEED, 13,-13,3.0);
+        encoderDrive(DRIVE_SPEED, 55,55,4.0);
+        sleep(20000);
+
+
     }
     public void runThree(){
         telemetry.addData("Running route", "3");
@@ -266,10 +274,18 @@ public class RedTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
-        /*turnRight(TURN_SPEED,.9); //turn 90 degrees right
-        encoderDrive(DRIVE_SPEED,-36,36,3.0); //strafe right 36 inches
-        encoderDrive(DRIVE_SPEED,-36,-36,4.0); //forward 36 inches into warehouse
-        encoderDrive(DRIVE_SPEED,12,-12,3.0); //strafe left 12 inches*/
+
+
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnLeft(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, 12,-12,3.0);
+
+        encoderDrive(DRIVE_SPEED, 13,-13,3.0);
+        encoderDrive(DRIVE_SPEED, 55,55,4.0);
+        sleep(20000);
+
     }
 
 

@@ -173,22 +173,7 @@ public class RedTouchSensorDepot extends LinearOpMode {
                 }
             }
 
-            //go back
-            encoderDrive(DRIVE_SPEED,-33,-33,2.0);
-            robot.elevatorServo.setPosition(.5);
-            sleep(500);
-            encoderDrive(DRIVE_SLOW,-3,-3,2.0);
-            //strafe right
-            encoderDrive(DRIVE_SPEED,29,-29,4.0);
-            encoderDrive(DRIVE_SLOW,13,-13,4.0);
-            //spin carousel
-            runtime.reset();
-            while(4>runtime.seconds()){           //SPIN DUCKY
-                robot.duckyMover.setPower(.03);
-            }
-            robot.duckyMover.setPower(0);
-            //strafe to depot
-            encoderDrive(DRIVE_SPEED,-25,25,3.0);
+
             telemetry.update();
             stop();
         }
@@ -205,7 +190,8 @@ public class RedTouchSensorDepot extends LinearOpMode {
         telemetry.addData("Running route", "1");
         telemetry.update();
         encoderDrive(TURN_SPEED, -37,37,4.0); //strafe right (20)
-        encoderDrive(DRIVE_SPEED, 12,12,2);// drive forward
+        encoderDrive(DRIVE_SPEED, 9,9,2);// drive forward
+        encoderDrive(DRIVE_SLOW, 3,3,2);// drive forward
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
@@ -214,13 +200,34 @@ public class RedTouchSensorDepot extends LinearOpMode {
         sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
-        robot.elevatorServo.setPosition(.6);
-        sleep(300);
+        robot.elevatorServo.setPosition(.5);
+        sleep(500);
+        robot.elevatorServo.setPosition(.7);
+        sleep(500);
+        robot.elevatorServo.setPosition(.5);
+        sleep(1000);
         robot.liftServo.setPosition(.4);
         sleep(1000);
         liftXRail(-1600);
         robot.elevatorServo.setPosition(.5);
 
+        //go back
+        encoderDrive(DRIVE_SPEED,-33,-33,2.0);
+        robot.elevatorServo.setPosition(.5);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,-3,-3,2.0);
+        //strafe right
+        encoderDrive(DRIVE_SPEED,29,-29,4.0);
+        encoderDrive(DRIVE_SLOW,13,-13,4.0);
+        //spin carousel
+        runtime.reset();
+        while(6>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.015);
+        }
+        robot.duckyMover.setPower(0);
+        //strafe to depot
+        encoderDrive(DRIVE_SPEED,-25,25,3.0);
+        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
     }
     public void runTwo(){
         //backwards
@@ -233,7 +240,7 @@ public class RedTouchSensorDepot extends LinearOpMode {
         telemetry.addData("Running route", "2");
         telemetry.update();
         encoderDrive(TURN_SPEED, -37.5,37.5,4.0); //strafe left
-        robot.elevatorServo.setPosition(.8);
+        robot.elevatorServo.setPosition(.7);
         sleep(1000);
         encoderDrive(DRIVE_SPEED, 7.9,7.9,2);
         liftXRail(-1600);
@@ -250,16 +257,36 @@ public class RedTouchSensorDepot extends LinearOpMode {
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
         //encoderDrive(DRIVE_SPEED, -58,58, 4); //right
+
+        //go back
+        encoderDrive(DRIVE_SPEED,-33,-33,2.0);
+        robot.elevatorServo.setPosition(.5);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,-3,-3,2.0);
+        //strafe right
+        encoderDrive(DRIVE_SPEED,29,-29,4.0);
+        encoderDrive(DRIVE_SLOW,13,-13,4.0);
+        //spin carousel
+        runtime.reset();
+        while(6>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.015);
+        }
+        robot.duckyMover.setPower(0);
+        //strafe to depot
+        encoderDrive(DRIVE_SPEED,-25,25,3.0);
+
+        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
     }
     public void runThree(){
         //backwards
         encoderDrive(DRIVE_SPEED,-10,-10,2.0);
         //turn right
         turnLeft(TURN_SPEED,.9);
+        encoderDrive(DRIVE_SPEED,-5,-5,2.0);
         telemetry.addData("Running route", "3");
         telemetry.update();
         encoderDrive(TURN_SPEED, -35.5,35.5,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 10,10,2);
+        encoderDrive(DRIVE_SPEED, 17,17,2);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo(0.4); //middle
@@ -273,6 +300,24 @@ public class RedTouchSensorDepot extends LinearOpMode {
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
 
+        //go back
+        encoderDrive(DRIVE_SPEED,-35,-35,2.0);
+        robot.elevatorServo.setPosition(.5);
+        sleep(500);
+        encoderDrive(DRIVE_SLOW,-3,-3,2.0);
+        //strafe right
+        encoderDrive(DRIVE_SPEED,30.5,-30.5,4.0);
+        encoderDrive(DRIVE_SLOW,7,-7,4.0);
+        //spin carousel
+        runtime.reset();
+        while(6>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.015);
+        }
+        robot.duckyMover.setPower(0);
+        //strafe to depot
+        encoderDrive(DRIVE_SPEED,-25,25,3.0);
+
+        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
     }
 
 

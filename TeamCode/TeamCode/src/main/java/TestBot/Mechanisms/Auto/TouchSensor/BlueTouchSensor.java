@@ -145,7 +145,7 @@ public class BlueTouchSensor extends LinearOpMode {
                 telemetry.update();
                 robot.touchServo.setPosition(0);
                 encoderDrive(DRIVE_SPEED,-6, -6, 3.0);
-                encoderDrive(DRIVE_SPEED,-9, 9, 3.0);
+                encoderDrive(DRIVE_SPEED,-10, 10, 3.0);
                 encoderDrive(DRIVE_SPEED,5, 5, 3.0);
                 digitalTouch.setMode(DigitalChannel.Mode.INPUT);
                 digitalTouch.setState(true);
@@ -172,35 +172,20 @@ public class BlueTouchSensor extends LinearOpMode {
                     sleep(1000);
                 }
             }
-                 telemetry.addData("PARKING NOW", robotPosition);
-                 encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-                robot.elevatorServo.setPosition(.5);
-                 turnRight(TURN_SPEED, .9);
-                 encoderDrive(DRIVE_SPEED, -12,12,3.0);
-                 encoderDrive(DRIVE_SPEED, -12,12,3.0);
-
-                 encoderDrive(DRIVE_SPEED, 55,55,5.0);
-                 telemetry.addData("sensor up",robotPosition);
-                 robot.touchServo.setPosition(0);
-                 sleep(20000);
-             }
-
-
-
-            telemetry.update();
-
-
+                  telemetry.update();
         }
+
+    }
 
 
 
     public void runOne(){
         telemetry.addData("Running route", "1");
-        encoderDrive(DRIVE_SPEED, -3,-3,1.0);
+        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
         encoderDrive(TURN_SPEED, 31,-31,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED,8,8,2);
-        encoderDrive(DRIVE_SLOW, 4,4,2);
+        encoderDrive(DRIVE_SPEED,13,13,2.0);
+        encoderDrive(DRIVE_SLOW, 4,4,2.0);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
@@ -215,6 +200,19 @@ public class BlueTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.elevatorServo.setPosition(.5);
+
+        telemetry.addData("PARKING NOW", robotPosition);
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+
+        encoderDrive(.8, 55,55,5.0);
+        telemetry.addData("sensor up",robotPosition);
+        robot.touchServo.setPosition(0);
+        sleep(20000);
     }
     public void runTwo(){
 
@@ -240,6 +238,19 @@ public class BlueTouchSensor extends LinearOpMode {
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
         //encoderDrive(DRIVE_SPEED, -58,58, 4); //right
+
+        telemetry.addData("PARKING NOW", robotPosition);
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+
+        encoderDrive(.8, 55,55,5.0);
+        telemetry.addData("sensor up",robotPosition);
+        robot.touchServo.setPosition(0);
+        sleep(20000);
     }
     public void runThree(){
         telemetry.addData("Running route", "3");
@@ -258,6 +269,19 @@ public class BlueTouchSensor extends LinearOpMode {
         sleep(1000);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
+
+        telemetry.addData("PARKING NOW", robotPosition);
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
+
+        robot.elevatorServo.setPosition(.5);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
+
+        encoderDrive(.8, 55,55,5.0);
+        telemetry.addData("sensor up",robotPosition);
+        robot.touchServo.setPosition(0);
+        sleep(20000);
     }
 
 
