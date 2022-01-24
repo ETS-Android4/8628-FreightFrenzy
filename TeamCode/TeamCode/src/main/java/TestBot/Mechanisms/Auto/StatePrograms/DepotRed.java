@@ -133,8 +133,8 @@ public class DepotRed extends LinearOpMode {
             digitalTouchLeft.setState(true);
             digitalTouchRight.setState(true);
             encoderDrive(DRIVE_SPEED, 16, 16, 3); //go to touch sensor
-            robot.touchServoLeft.setPosition(.5);
-            robot.touchServoRight.setPosition(.5);
+            robot.touchServoLeft.setPosition(robot.LEFT_DOWN);
+            robot.touchServoRight.setPosition(robot.RIGHT_DOWN);
             sleep(1500);
 
 
@@ -144,10 +144,10 @@ public class DepotRed extends LinearOpMode {
                 telemetry.update();
                 sleep(300);
                 //Move servo backward
-                robot.touchServoLeft.setPosition(0);
-                robot.touchServoRight.setPosition(0);
+                robot.touchServoLeft.setPosition(robot.LEFT_UP);
+                robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 1;
-                runOne();
+                runTwo();
                 //sleep(20000);
             } else if(digitalTouchRight.getState() == false) {
                 //    at position 3, run top one
@@ -155,18 +155,18 @@ public class DepotRed extends LinearOpMode {
                 telemetry.update();
                 sleep(300);
                 //Move servo backward
-                robot.touchServoLeft.setPosition(0);
-                robot.touchServoRight.setPosition(0);
+                robot.touchServoLeft.setPosition(robot.LEFT_UP);
+                robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 2;
-                runTwo();
+                runOne();
                 //sleep(20000);
             } else {
                 //       at position 1, run bottom one
                 telemetry.addData("Digital Touch", "not pressed");
                 telemetry.update();
                 sleep(300);
-                robot.touchServoLeft.setPosition(0);
-                robot.touchServoRight.setPosition(0);
+                robot.touchServoLeft.setPosition(robot.LEFT_UP);
+                robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 3;
                 runThree();
 

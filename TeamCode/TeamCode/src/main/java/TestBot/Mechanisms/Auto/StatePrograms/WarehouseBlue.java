@@ -19,9 +19,9 @@ import TestBot.Mechanisms.FreightBotInfo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 
-@Autonomous(name = "BDepot", group = "Sensor")
+@Autonomous(name = "BWarehouse", group = "Sensor")
 
-public class DepotBlue extends LinearOpMode {
+public class WarehouseBlue extends LinearOpMode {
     /* Copyright (c) 2017 FIRST. All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -147,7 +147,7 @@ public class DepotBlue extends LinearOpMode {
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 1;
-                runThree();
+                runTwo();
                 //sleep(20000);
             } else if(digitalTouchRight.getState() == false) {
                 //    at position 3, run top one
@@ -158,7 +158,7 @@ public class DepotBlue extends LinearOpMode {
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 2;
-                runTwo();
+                runOne();
                 //sleep(20000);
             } else {
                 //       at position 1, run bottom one
@@ -168,7 +168,7 @@ public class DepotBlue extends LinearOpMode {
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 3;
-                runOne();
+                runThree();
 
                 //sleep(20000);
             }
@@ -182,24 +182,17 @@ public class DepotBlue extends LinearOpMode {
 
 
     public void runOne(){
-        //backwards
-        encoderDrive(DRIVE_SPEED,-10,-10,2.0);
-        //turn right
-        turnRight(TURN_SPEED,.85);
-
-        telemetry.addData("Running route", "3");
-        telemetry.update();
-        encoderDrive(TURN_SPEED, 37,-37,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 10,10,2); //correcting 6 inches for different start position
-        encoderDrive(DRIVE_SLOW,2.5,2.5,1);
-        //slow forward to get to carousel
-        encoderDrive(DRIVE_SLOW,2,2,2.0);
+        telemetry.addData("Running route", "1");
+        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
+        encoderDrive(TURN_SPEED, 32,-32,4.0); //strafe left
+        encoderDrive(DRIVE_SPEED,13,13,2.0);
+        encoderDrive(DRIVE_SLOW, 4,4,2.0);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
-        sleep(500);
+        sleep(800);
         liftXRail(-2500);//CHANGE
-        sleep(500);
+        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.elevatorServo.setPosition(.6);
@@ -207,97 +200,57 @@ public class DepotBlue extends LinearOpMode {
         robot.liftServo.setPosition(.4);
         sleep(1000);
         liftXRail(-1600);
-        robot.elevatorServo.setPosition(.7);
-        sleep(300);
-        robot.elevatorServo.setPosition(.5);
-        sleep(300);
-        //go back
-        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
-        //turn towards carousel
+        robot.elevatorServo.setPosition(0);
 
-        robot.elevatorServo.setPosition(.5);
-        turnLeft(TURN_SPEED,.9);
-        sleep(500);
-        encoderDrive(DRIVE_SPEED,7,-7,5.0);
-        encoderDrive(DRIVE_SLOW,9,-9,5.0);
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        //go forwards to carousel
-        encoderDrive(DRIVE_SPEED,-27,-27,4.0);
-        encoderDrive(DRIVE_SLOW,-5,-5,3.0);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -14,14,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
 
-        //spin carousel
-        runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
-        }
-        robot.duckyMover.setPower(0);
-        //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
+        encoderDrive(.8, 55,55,5.0);
+        turnRight(DRIVE_SPEED, 1.4);  //Spin so robot is ready to load freight
+        sleep(20000);
+
     }
     public void runTwo(){
-        //backwards
-        encoderDrive(DRIVE_SPEED,-10,-10,2.0);
-        //turn right
-        turnRight(TURN_SPEED,.85);
-
-        telemetry.addData("Running route", "3");
-        telemetry.update();
-        encoderDrive(TURN_SPEED, 37,-37,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 10,10,2); //correcting 6 inches for different start position
-        encoderDrive(DRIVE_SLOW,2.5,2.5,1);
-        //slow forward to get to carousel
-        encoderDrive(DRIVE_SLOW,2,2,2.0);
+        telemetry.addData("Running route", "1");
+        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
+        encoderDrive(TURN_SPEED, 32,-32,4.0); //strafe left
+        encoderDrive(DRIVE_SPEED,13,13,2.0);
+        encoderDrive(DRIVE_SLOW, 4,4,2.0);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
-        sleep(700);
+        sleep(800);
         sleep(1000);
         liftXRail(-2500);//CHANGE
         sleep(800);
-        robot.liftServo.setPosition(1); //dump
+        robot.liftServo.setPosition(1);
         sleep(900);
         robot.liftServo.setPosition(.4);
         sleep(900);
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
 
-        //go back
-        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
-        //turn towards carousel
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        robot.elevatorServo.setPosition(.5);
-        turnLeft(TURN_SPEED,.9);
-        sleep(500);
-        encoderDrive(DRIVE_SPEED,7,-7,5.0);
-        encoderDrive(DRIVE_SLOW,9,-9,5.0);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -14,14,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
 
-        //go forwards to carousel
-        encoderDrive(DRIVE_SPEED,-27,-27,4.0);
-        encoderDrive(DRIVE_SLOW,-5,-5,3.0);
+        encoderDrive(.8, 55,55,5.0);
+        turnRight(DRIVE_SPEED, 1.4);  //Spin so robot is ready to load freight
+        sleep(20000);
 
-        //spin carousel
-        runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
-        }
-        robot.duckyMover.setPower(0);
-        //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
 
     }
     public void runThree(){
-        //backwards
-        encoderDrive(DRIVE_SPEED,-10,-10,2.0);
-        //turn right
-        turnRight(TURN_SPEED,.85);
-
-        telemetry.addData("Running route", "3");
-        telemetry.update();
-        encoderDrive(TURN_SPEED, 37,-37,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 10,10,2); //correcting 6 inches for different start position
-        encoderDrive(DRIVE_SLOW,2.5,2.5,1);
-        //slow forward to get to carousel
-        encoderDrive(DRIVE_SLOW,2,2,2.0);
+        telemetry.addData("Running route", "1");
+        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
+        encoderDrive(TURN_SPEED, 32,-32,4.0); //strafe left
+        encoderDrive(DRIVE_SPEED,13,13,2.0);
+        encoderDrive(DRIVE_SLOW, 4,4,2.0);
         liftXRail(-1600);
         //pivot box all the way
         robot.liftServo(0.4); //middle
@@ -311,28 +264,16 @@ public class DepotBlue extends LinearOpMode {
         liftXRail(-1600);
         robot.liftServo.setPosition(0); //down
 
-        //go back
-        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
-        //turn towards carousel
+        encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        robot.elevatorServo.setPosition(.5);
-        turnLeft(TURN_SPEED,.9);
-        sleep(500);
-        encoderDrive(DRIVE_SPEED,7,-7,5.0);
-        encoderDrive(DRIVE_SLOW,9,-9,5.0);
+        turnRight(TURN_SPEED, .9);
+        encoderDrive(DRIVE_SPEED, -14,14,3.0);
+        encoderDrive(DRIVE_SPEED, -12,12,3.0);
 
-        //go forwards to carousel
-        encoderDrive(DRIVE_SPEED,-27,-27,4.0);
-        encoderDrive(DRIVE_SLOW,-5,-5,3.0);
+        encoderDrive(.8, 55,55,5.0);
+        turnRight(DRIVE_SPEED, 1.4);  //Spin so robot is ready to load freight
+        sleep(20000);
 
-        //spin carousel
-        runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
-        }
-        robot.duckyMover.setPower(0);
-        //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
     }
 
 
