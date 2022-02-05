@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -32,8 +33,8 @@ public class FreightBotInfo {
     public DcMotor intakeMotor;
     public DcMotor liftMotor;
     public Servo elevatorServo;
-    public Servo touchServo;
-    public Servo magnetServo;
+    public Servo touchServoLeft;
+    public Servo touchServoRight;
 
 
     private double backLeftTicksPerRev;
@@ -41,14 +42,32 @@ public class FreightBotInfo {
     private double frontLeftTicksPerRev;
     private double frontRightTicksPerRev;
 
+    public DigitalChannel digitalTouchLeft;  // Hardware Device Object
+    public DigitalChannel digitalTouchRight;  // Hardware Device Object
     //imu
     private BNO055IMU imu;
 
+    public double LEFT_DOWN = 0.5;
+    public double RIGHT_DOWN = 0;
+
+    public double LEFT_UP = 0;
+    public double RIGHT_UP = 0.5;
 
     public void init(HardwareMap hwMap) {
 
   //      mecanumDriveBase = new MecanumDriveBase(frontLeft, frontRight, backLeft, backRight);
         //drivetrain systems
+
+        // get a reference to our digitalTouch object.
+        digitalTouchLeft = hwMap.get(DigitalChannel.class, "digitalTouchLeft");
+
+        // set the digital channel to input.
+        digitalTouchLeft.setMode(DigitalChannel.Mode.INPUT);
+        // get a reference to our digitalTouch object.
+        digitalTouchRight = hwMap.get(DigitalChannel.class, "digitalTouchRight");
+
+        // set the digital channel to input.
+        digitalTouchRight.setMode(DigitalChannel.Mode.INPUT);
 
         backLeft = hwMap.get(DcMotor.class, "lb");
         backRight = hwMap.get(DcMotor.class, "rb");
@@ -82,14 +101,14 @@ public class FreightBotInfo {
 
 
         //modules
-        //duckyMover = hwMap.get(CRServo.class, "duckyMover");
         duckyMover = hwMap.get(DcMotor.class,"duckyMover");
         duckyMover.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         duckyMover.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // get servo
-        touchServo = hwMap.get(Servo.class, "touchServo");
+        touchServoLeft = hwMap.get(Servo.class, "touchServoLeft");
+        touchServoRight = hwMap.get(Servo.class, "touchServoRight");
 
         liftServo = hwMap.get(Servo.class, "liftServo" );
 
@@ -104,7 +123,6 @@ public class FreightBotInfo {
 
         elevatorServo = hwMap.get(Servo.class, "elevatorServo");
 
-        magnetServo = hwMap.get(Servo.class, "magnetServo");
 
 
 
@@ -127,9 +145,54 @@ public class FreightBotInfo {
         backLeft.setPower((forward - sideways) + rotation * 1.0);
         backRight.setPower(forward + (sideways - rotation) * 1.0);
 
-
     }
 
+    public void presetThree(int midPosition, int finalPosition, boolean pressed){
+
+            if (pressed){
+                liftMotor.setTargetPosition(midPosition);
+
+                // Turn On RUN_TO_POSITION
+
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                liftMotor.setPower(1);
+                while (liftMotor.isBusy() && liftMotor.getCurrentPosition()<midPosition) {
+
+                    liftMotor.getCurrentPosition();
+                }
+
+                // Stop all motion;
+                liftMotor.setPower(0);
+
+                // Turn off RUN_TO_POSITION
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                if(liftMotor.getCurrentPosition()>=(midPosition)){
+                    liftServo.setPosition(.4);
+
+                    liftMotor.setTargetPosition(finalPosition);
+
+                    // Turn On RUN_TO_POSITION
+
+                    liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    liftMotor.setPower(1);
+                    while (liftMotor.isBusy()&&liftMotor.getCurrentPosition()<finalPosition) {
+
+                        liftMotor.getCurrentPosition();
+                    }
+
+                    // Stop all motion;
+                    liftMotor.setPower(0);
+
+                    // Turn off RUN_TO_POSITION
+                    liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                }
+            }
+
+    }
 
 
     public void timedDucky(double timeout, double currentTime, double startTime, double power){
@@ -145,18 +208,6 @@ public class FreightBotInfo {
 
     public double getTicksPerRev(){
         return frontLeftTicksPerRev;
-    }
-   public double getFLMotorRotations(){
-        return frontLeft.getCurrentPosition() / frontLeftTicksPerRev;
-    }
-    public double getFRMotorRotations(){
-        return frontRight.getCurrentPosition() / frontRightTicksPerRev;
-    }
-    public double getBLMotorRotations(){
-        return backLeft.getCurrentPosition() / backLeftTicksPerRev;
-    }
-    public double getBRMotorRotations(){
-        return backRight.getCurrentPosition() / backRightTicksPerRev;
     }
 
 
