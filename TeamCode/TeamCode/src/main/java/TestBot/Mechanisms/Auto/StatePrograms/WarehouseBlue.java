@@ -206,53 +206,14 @@ public class WarehouseBlue extends LinearOpMode {
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        turnLeft(TURN_SPEED, .9);
+        turnRight(TURN_SPEED, .9);
         encoderDrive(DRIVE_SPEED, 14,-14,3.0);
         encoderDrive(DRIVE_SPEED, 12,-12,3.0);
         encoderDrive(DRIVE_SLOW, 2,-2,2.0);
 
 
-        encoderDrive(DRIVE_SPEED, -53,-53,5.0); //edited from 55
+        encoderDrive(DRIVE_SPEED, -55,-55,5.0); //edited from 55
 
-          //Spin so robot is ready to load freight NEW
-        //strafe to wall
-        encoderDrive(DRIVE_SPEED, 4,-4,1.0);
-        //forward to freight (small)
-        robot.intakeMotor.setPower(.3);
-        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
-        //intake for a second
-        sleep(1300);
-        robot.intakeMotor.setPower(0);
-        //xrail up a little
-        liftXRail(2500);
-        sleep(800);
-        //tilt box up
-        robot.liftServo.setPosition(.4);
-        //outtake
-        robot.intakeMotor.setPower(-.3);
-        encoderDrive(DRIVE_SPEED, 8,8,3.0);
-
-        //back out, lift xrail,
-        encoderDrive(DRIVE_SPEED, 27,27,4.0);
-        robot.intakeMotor.setPower(0);
-        liftXRail(6500);
-        //strafe
-        encoderDrive(DRIVE_SPEED, -50,50,4.0);
-        //go forward a few
-        encoderDrive(DRIVE_SLOW, 3,3,2.0);
-        //dump
-        robot.liftServo.setPosition(1);
-        //reset
-        sleep(1000);
-        robot.liftServo.setPosition(.4);
-        //repark
-        encoderDrive(DRIVE_SPEED, 50,-50,4.0);
-        encoderDrive(DRIVE_SPEED, -36,-36,3.0);
-        liftXRail(2500);
-        sleep(800);
-        robot.liftServo.setPosition(.2);
-        sleep(800);
-        liftXRail(100);
         sleep(20000);
 
     }
@@ -282,53 +243,15 @@ public class WarehouseBlue extends LinearOpMode {
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        turnLeft(TURN_SPEED, .9);
+        turnRight(TURN_SPEED, .9);
         encoderDrive(DRIVE_SPEED, 16,-16,3.0);
         encoderDrive(DRIVE_SPEED, 12,-12,3.0);
         encoderDrive(DRIVE_SLOW, 2,-2,2.0);
 
 
-        encoderDrive(DRIVE_SPEED, -53,-53,5.0); //edited from 55
+        encoderDrive(DRIVE_SPEED, -55,-55,5.0); //edited from 55
 
-        //Spin so robot is ready to load freight NEW
-        //strafe to wall
-        encoderDrive(DRIVE_SPEED, 4,-4,1.0);
-        //forward to freight (small)
-        robot.intakeMotor.setPower(.3);
-        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
-        //intake for a second
-        sleep(1300);
-        robot.intakeMotor.setPower(0);
-        //xrail up a little
-        liftXRail(2500);
-        sleep(800);
-        //tilt box up
-        robot.liftServo.setPosition(.4);
-        //outtake
-        robot.intakeMotor.setPower(-.3);
-        encoderDrive(DRIVE_SPEED, 8,8,3.0);
 
-        //back out, lift xrail
-        encoderDrive(DRIVE_SPEED, 27.5,27.5,4.0);
-        robot.intakeMotor.setPower(0);
-        liftXRail(6500);
-        //strafe
-        encoderDrive(DRIVE_SPEED, -50,50,4.0);
-        //go forward a few
-        encoderDrive(DRIVE_SLOW, 4,4,3.0);
-        //dump
-        robot.liftServo.setPosition(1);
-        //reset
-        sleep(1000);
-        robot.liftServo.setPosition(.4);
-        //repark
-        encoderDrive(DRIVE_SPEED, 50,-50,4.0);
-        encoderDrive(DRIVE_SPEED, -36,-36,3.0);
-        liftXRail(2500);
-        sleep(800);
-        robot.liftServo.setPosition(.2);
-        sleep(800);
-        liftXRail(100);
         sleep(20000);
 
 
@@ -360,53 +283,14 @@ public class WarehouseBlue extends LinearOpMode {
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        turnLeft(TURN_SPEED, .9);
+        turnRight(TURN_SPEED, .9);
         encoderDrive(DRIVE_SPEED, 18,-18,3.0);
         encoderDrive(DRIVE_SPEED, 12,-12,3.0);
         encoderDrive(DRIVE_SLOW, 2,-2,2.0);
 
 
-        encoderDrive(DRIVE_SPEED, -53,-53,5.0); //edited from 55
+        encoderDrive(DRIVE_SPEED, -55,-55,5.0); //edited from 55
 
-        //Spin so robot is ready to load freight NEW
-        //strafe to wall
-        encoderDrive(DRIVE_SPEED, 4,-4,1.0);
-        //forward to freight (small)
-        robot.intakeMotor.setPower(.3);
-        encoderDrive(DRIVE_SPEED, -8,-8,2.0);
-        //intake for a second
-        sleep(1300);
-        robot.intakeMotor.setPower(0);
-        //xrail up a little
-        liftXRail(2500);
-        sleep(800);
-        //tilt box up
-        robot.liftServo.setPosition(.4);
-        //outtake
-        robot.intakeMotor.setPower(-.3);
-        encoderDrive(DRIVE_SPEED, 8,8,3.0);
-
-        //back out, lift xrail,
-        encoderDrive(DRIVE_SPEED, 28,28,4.0);
-        robot.intakeMotor.setPower(0);
-        liftXRail(6500);
-        //strafe
-        encoderDrive(DRIVE_SPEED, -50,50,4.0);
-        //go forward a few
-        encoderDrive(DRIVE_SLOW, 4,4,3.0);
-        //dump
-        robot.liftServo.setPosition(1);
-        //reset
-        sleep(800);
-        robot.liftServo.setPosition(.4);
-        //repark
-        encoderDrive(DRIVE_SPEED, 50,-50,4.0);
-        encoderDrive(DRIVE_SPEED, -36,-36,3.0);
-        liftXRail(2500);
-        sleep(800);
-        robot.liftServo.setPosition(.2);
-        sleep(800);
-        liftXRail(100);
         sleep(20000);
 
     }

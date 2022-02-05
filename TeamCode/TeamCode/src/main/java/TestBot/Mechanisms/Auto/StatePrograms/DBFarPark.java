@@ -19,9 +19,9 @@ import TestBot.Mechanisms.FreightBotInfo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 
-@Autonomous(name = "BDepot", group = "Sensor")
+@Autonomous(name = "BDepotFarPark", group = "Sensor")
 
-public class DepotBlue extends LinearOpMode {
+public class DBFarPark extends LinearOpMode {
     /* Copyright (c) 2017 FIRST. All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -229,16 +229,16 @@ public class DepotBlue extends LinearOpMode {
         robot.duckyMover.setPower(0);
         //back to depot
         //in case park in depot
-        encoderDrive(DRIVE_SPEED,18,18,3.0);
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
         //to park in warehouse
-        /*encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
         turnLeft(TURN_SPEED,.9);
         encoderDrive(DRIVE_SPEED,20,-20,3.0);
         encoderDrive(DRIVE_SPEED,-80,-80,4.0);
 
         sleep(1000);
         liftXRail(100);
-        sleep(20000);*/
+        sleep(20000);
     }
 
     public void runTwo(){
@@ -288,18 +288,18 @@ public class DepotBlue extends LinearOpMode {
         }
         robot.duckyMover.setPower(0);
         //back to depot
-       //IN CASE OF PARK IN DEPOT
-         encoderDrive(DRIVE_SPEED,18,18,3.0);
+        //IN CASE OF PARK IN DEPOT
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
 
         //to park in warehouse
-       /* encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
         turnLeft(TURN_SPEED,.9);
         encoderDrive(DRIVE_SPEED,20,-20,3.0);
         encoderDrive(DRIVE_SPEED,-80,-80,4.0);
         liftXRail(1100);
         robot.elevatorServo.setPosition(.5);
 
-        sleep(20000);*/
+        sleep(20000);
 
     }
     public void runThree(){
@@ -349,17 +349,17 @@ public class DepotBlue extends LinearOpMode {
         }
         robot.duckyMover.setPower(0);
         //back to depot
-       //in case park in depot
-         encoderDrive(DRIVE_SPEED,18,18,3.0);
+        //in case park in depot
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
         //to park in warehouse
-       /* encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
         turnLeft(TURN_SPEED,.9);
         encoderDrive(DRIVE_SPEED,20,-20,3.0);
         encoderDrive(DRIVE_SPEED,-80,-80,4.0);
 
         liftXRail(1100);
         robot.elevatorServo.setPosition(.5);
-        sleep(20000);*/
+        sleep(20000);
     }
 
 
@@ -499,3 +499,4 @@ public class DepotBlue extends LinearOpMode {
         }
     }
 }
+

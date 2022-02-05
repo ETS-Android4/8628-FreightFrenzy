@@ -194,8 +194,6 @@ public class DepotRed extends LinearOpMode {
 
         liftXRail(2800);
         //pivot box all the way
-        robot.liftServo.setPosition(0.4); //middle
-        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.liftServo.setPosition(.4);
@@ -213,17 +211,19 @@ public class DepotRed extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,-3,-3,2.0);
         //strafe right
         encoderDrive(DRIVE_SPEED,30,-30,5.0);
-        encoderDrive(DRIVE_SLOW,5,-5,3.0);
+        encoderDrive(DRIVE_SLOW,6.5,-6.5,3.0);
         encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+        while(2.5>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
             robot.duckyMover.setPower(-.5);
         }
         robot.duckyMover.setPower(0);
-        //strafe to depot
-        encoderDrive(DRIVE_SPEED,-25,25,4.0);
-        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+
+
+
+        encoderDrive(DRIVE_SPEED,-25,25,4.0); //this was the park in depot movement (reversed for 25 in)
+
         sleep(20000);
     }
     public void runTwo(){
@@ -243,16 +243,13 @@ public class DepotRed extends LinearOpMode {
 
         liftXRail(3200);
         //pivot box all the way
-        robot.liftServo.setPosition(0.4); //middle
-        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.liftServo.setPosition(.4);
-        sleep(1000);
         liftXRail(2500);
         robot.liftServo.setPosition(.2);
         sleep(1000);
-        liftXRail(1100);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
 
         //go back
@@ -266,13 +263,12 @@ public class DepotRed extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+        while(2.5>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
             robot.duckyMover.setPower(-.3);
         }
         robot.duckyMover.setPower(0);
-        //strafe to depot
+
         encoderDrive(DRIVE_SPEED,-25,25,4.0);
-        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
         sleep(20000);
 
     }
@@ -294,7 +290,7 @@ public class DepotRed extends LinearOpMode {
         telemetry.update();
         encoderDrive(TURN_SPEED, -40,40,4.0); //strafe right- extra far to get rid of team scoring element
         encoderDrive(TURN_SPEED, 3,-3,4.0); //strafe back
-        encoderDrive(DRIVE_SPEED, 12,12,2);// drive forward
+        encoderDrive(DRIVE_SPEED, 9,9,2);// drive forward
         encoderDrive(DRIVE_SLOW, 6,6,2);// drive forward
 
         liftXRail(3250);
@@ -304,13 +300,13 @@ public class DepotRed extends LinearOpMode {
         liftXRail(6500);
         sleep(1000);
         robot.liftServo.setPosition(1); //dump box
-        sleep(800);
+        sleep(1000);
         robot.liftServo.setPosition(.4);//middle
         sleep(1000);
         liftXRail(2500);
         robot.liftServo.setPosition(.2);
         sleep(1000);
-        liftXRail(1100);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
 
         //go back
@@ -324,13 +320,13 @@ public class DepotRed extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+        while(2.5>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
             robot.duckyMover.setPower(-.4);
         }
         robot.duckyMover.setPower(0);
-        //strafe to depot
+
         encoderDrive(DRIVE_SPEED,-25,25,4.0);
-        encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+
         sleep(20000);
 
     }

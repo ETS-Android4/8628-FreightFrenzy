@@ -192,8 +192,6 @@ public class WarehouseRed extends LinearOpMode {
 
         liftXRail(2800);
         //pivot box all the way
-        robot.liftServo.setPosition(0.4); //middle
-        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.liftServo.setPosition(.4);
@@ -222,6 +220,7 @@ public class WarehouseRed extends LinearOpMode {
         sleep(20000);
 
 
+
     }
     public void runTwo(){
         encoderDrive(DRIVE_SPEED, -6,-6,2);
@@ -233,8 +232,6 @@ public class WarehouseRed extends LinearOpMode {
 
         liftXRail(3200);
         //pivot box all the way
-        robot.liftServo.setPosition(0.4); //middle
-        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
         robot.liftServo.setPosition(.4);
@@ -242,7 +239,7 @@ public class WarehouseRed extends LinearOpMode {
         liftXRail(2500);
         robot.liftServo.setPosition(.2);
         sleep(1000);
-        liftXRail(1100);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
@@ -254,7 +251,9 @@ public class WarehouseRed extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, 50,50,4.0);
         turnRight(TURN_SPEED, 1.6);
 
+
         sleep(20000);
+
 
 
     }
@@ -270,20 +269,19 @@ public class WarehouseRed extends LinearOpMode {
         robot.liftServo(0.4); //middle
         sleep(800);
         liftXRail(6500);
-        sleep(1000);
         robot.liftServo.setPosition(1); //dump box
-        sleep(800);
+        sleep(1000);
         robot.liftServo.setPosition(.4);//middle
         sleep(1000);
         liftXRail(2500);
         robot.liftServo.setPosition(.2);
         sleep(1000);
-        liftXRail(1100);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
-        turnLeft(TURN_SPEED, .9);
+        turnLeft(TURN_SPEED, .9); //changed from left
         encoderDrive(DRIVE_SPEED, 25,-25,5.0); //to wall
         encoderDrive(DRIVE_SLOW,3,-3,2.0);
 
