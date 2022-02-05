@@ -71,8 +71,6 @@ public class DepotRed extends LinearOpMode {
     static final double DRIVE_SPEED = 1.0;
     static final double DRIVE_SLOW = 0.2;
     static final double TURN_SPEED = 0.5;
-    DigitalChannel digitalTouchLeft;  // Hardware Device Object
-    DigitalChannel digitalTouchRight;  // Hardware Device Object
 
     int robotPosition = 0;
 
@@ -80,16 +78,6 @@ public class DepotRed extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // get a reference to our digitalTouch object.
-        digitalTouchLeft = hardwareMap.get(DigitalChannel.class, "digitalTouch");
-
-        // set the digital channel to input.
-        digitalTouchLeft.setMode(DigitalChannel.Mode.INPUT);
-        // get a reference to our digitalTouch object.
-        digitalTouchRight = hardwareMap.get(DigitalChannel.class, "digitalTouch");
-
-        // set the digital channel to input.
-        digitalTouchRight.setMode(DigitalChannel.Mode.INPUT);
 
         robot.init(hardwareMap);
 
@@ -130,30 +118,34 @@ public class DepotRed extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            digitalTouchLeft.setState(true);
-            digitalTouchRight.setState(true);
-            encoderDrive(DRIVE_SPEED, 16, 16, 3); //go to touch sensor
-            robot.touchServoLeft.setPosition(robot.LEFT_DOWN);
+            robot.digitalTouchLeft.setState(true);
+            robot.digitalTouchRight.setState(true);
+            encoderDrive(.6, 16, 16, 3); //go to touch sensor
             robot.touchServoRight.setPosition(robot.RIGHT_DOWN);
-            sleep(1500);
+            robot.touchServoLeft.setPosition(robot.LEFT_DOWN);
 
+            sleep(500);
+            telemetry.addData("left state",robot.digitalTouchLeft.getState());
+            telemetry.addData("right state",robot.digitalTouchRight.getState());
+            telemetry.update();
+            sleep(2000);
 
-            if(digitalTouchLeft.getState() == false){
+            if(robot.digitalTouchLeft.getState() == false){
                 //    at position 3, run top one
-                telemetry.addData("Digital Touch", "Is Pressed");
+                telemetry.addData("Left Digital Touch", "Is Pressed");
                 telemetry.update();
-                sleep(300);
+                sleep(500);
                 //Move servo backward
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 1;
                 runTwo();
                 //sleep(20000);
-            } else if(digitalTouchRight.getState() == false) {
+            } else if(robot.digitalTouchRight.getState() == false) {
                 //    at position 3, run top one
-                telemetry.addData("Digital Touch", "Is Pressed");
+                telemetry.addData("Right Digital Touch", "Is Pressed");
                 telemetry.update();
-                sleep(300);
+                sleep(500);
                 //Move servo backward
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
@@ -162,9 +154,9 @@ public class DepotRed extends LinearOpMode {
                 //sleep(20000);
             } else {
                 //       at position 1, run bottom one
-                telemetry.addData("Digital Touch", "not pressed");
+                telemetry.addData(" Neither Digital Touch", "not pressed");
                 telemetry.update();
-                sleep(300);
+                sleep(500);
                 robot.touchServoLeft.setPosition(robot.LEFT_UP);
                 robot.touchServoRight.setPosition(robot.RIGHT_UP);
                 robotPosition = 3;
@@ -180,6 +172,11 @@ public class DepotRed extends LinearOpMode {
         }
 
 
+//3980 for position 2
+//7350 for dump position
+//3940 safe to go from dump to load
+// 3251 go from up and down to load
+//1477 down position
 
     public void runOne(){
         //backwards
@@ -187,49 +184,47 @@ public class DepotRed extends LinearOpMode {
         //turn right
         turnLeft(TURN_SPEED,.9);
         //go to cupcake holder (shipping hub)
-        encoderDrive(DRIVE_SPEED,9,9,2.0); //Drive forward 6
+        //encoderDrive(DRIVE_SPEED,6,6,3.0); //Drive forward 6
         telemetry.addData("Running route", "1");
         telemetry.update();
-        encoderDrive(TURN_SPEED, -37,37,4.0); //strafe right (20)
+        encoderDrive(TURN_SPEED, -40,40,4.0); //strafe right- extra far to get rid of team scoring element
+        encoderDrive(TURN_SPEED, 3,-3,4.0); //strafe back
         encoderDrive(DRIVE_SPEED, 11,11,2);// drive forward
-        encoderDrive(DRIVE_SLOW, 3,3,2);// drive forward
-        liftXRail(-1600);
+        encoderDrive(DRIVE_SLOW, 6,6,2);// drive forward
+
+        liftXRail(2800);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
         sleep(800);
-        liftXRail(-2500);//CHANGE
-        sleep(800);
         robot.liftServo.setPosition(1);
-        sleep(1000);
-        robot.elevatorServo.setPosition(.5);
-        sleep(500);
-        robot.elevatorServo.setPosition(.7);
-        sleep(500);
-        robot.elevatorServo.setPosition(.5);
         sleep(1000);
         robot.liftServo.setPosition(.4);
         sleep(1000);
-        liftXRail(-1600);
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
 
         //go back
-        encoderDrive(DRIVE_SPEED,-33,-33,2.0);
+        encoderDrive(DRIVE_SPEED,-36,-36,2.0);
         robot.elevatorServo.setPosition(.5);
         sleep(500);
         encoderDrive(DRIVE_SLOW,-3,-3,2.0);
         //strafe right
-        encoderDrive(DRIVE_SPEED,24,-24,5.0);
-        encoderDrive(DRIVE_SLOW,15,-15,3.0);
+        encoderDrive(DRIVE_SPEED,30,-30,5.0);
+        encoderDrive(DRIVE_SLOW,5,-5,3.0);
+        encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(.015);
+        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.5);
         }
         robot.duckyMover.setPower(0);
         //strafe to depot
         encoderDrive(DRIVE_SPEED,-25,25,4.0);
         encoderDrive(DRIVE_SPEED,-4,-4,2.0);
-
+        sleep(20000);
     }
     public void runTwo(){
         //backwards
@@ -237,88 +232,107 @@ public class DepotRed extends LinearOpMode {
         //turn right
         turnLeft(TURN_SPEED,.9);
         //go to cupcake holder (shipping hub)
-        encoderDrive(DRIVE_SPEED,9,9,2.0); //Drive forward 6
-        telemetry.addData("Running route", "1");
+        //encoderDrive(DRIVE_SPEED,6,6,3.0); //Drive forward 6
+        telemetry.addData("Running route", "2");
         telemetry.update();
-        encoderDrive(TURN_SPEED, -37,37,4.0); //strafe right (20)
-        encoderDrive(DRIVE_SPEED, 11,11,2);// drive forward
-        encoderDrive(DRIVE_SLOW, 3,3,2);// drive forward
-        liftXRail(-1600);
+        encoderDrive(TURN_SPEED, -42,42,4.0); //strafe right- extra far to get rid of team scoring element
+        encoderDrive(TURN_SPEED, 3,-3,4.0); //strafe back
+        robot.elevatorServo.setPosition(.7);
+        encoderDrive(DRIVE_SPEED, 10.5,10.5,2);// drive forward
+        encoderDrive(DRIVE_SLOW, 5,5,2);// drive forward
+
+        liftXRail(3200);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
         sleep(800);
-        sleep(1000);
-        liftXRail(-2500);//CHANGE THIS IS NOT GOING FAR ENOUGH TO DROP BLOCK
-        sleep(800);
         robot.liftServo.setPosition(1);
-        sleep(900);
+        sleep(1000);
         robot.liftServo.setPosition(.4);
-        sleep(900);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
-        //encoderDrive(DRIVE_SPEED, -58,58, 4); //right
+        sleep(1000);
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
 
         //go back
-        encoderDrive(DRIVE_SPEED,-33,-33,2.0);
+        encoderDrive(DRIVE_SPEED,-36,-36,2.0);
         robot.elevatorServo.setPosition(.5);
         sleep(500);
         encoderDrive(DRIVE_SLOW,-3,-3,2.0);
         //strafe right
-        encoderDrive(DRIVE_SPEED,24,-24,5.0);
-        encoderDrive(DRIVE_SLOW,15,-15,3.0);
+        encoderDrive(DRIVE_SPEED,33,-33,5.0);
+        encoderDrive(DRIVE_SLOW,6,-6,3.0);
+        encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(.015);
+        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.3);
         }
         robot.duckyMover.setPower(0);
         //strafe to depot
         encoderDrive(DRIVE_SPEED,-25,25,4.0);
         encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+        sleep(20000);
 
     }
+
+//3980 for position 2
+//7350 for dump position
+//3940 safe to go from dump to load
+// 3251 go from up and down to load
+//1477 down position
+
     public void runThree(){
         //backwards
         encoderDrive(DRIVE_SPEED,-10,-10,2.0);
         //turn right
         turnLeft(TURN_SPEED,.9);
         //go to cupcake holder (shipping hub)
-        encoderDrive(DRIVE_SPEED,9,9,2.0); //Drive forward 6
+        //encoderDrive(DRIVE_SPEED,6,6,3.0); //Drive forward 6
         telemetry.addData("Running route", "1");
         telemetry.update();
-        encoderDrive(TURN_SPEED, -37,37,4.0); //strafe right (20)
-        encoderDrive(DRIVE_SPEED, 11,11,2);// drive forward
-        encoderDrive(DRIVE_SLOW, 3,3,2);// drive forward
-        liftXRail(-1600);
+        encoderDrive(TURN_SPEED, -40,40,4.0); //strafe right- extra far to get rid of team scoring element
+        encoderDrive(TURN_SPEED, 3,-3,4.0); //strafe back
+        encoderDrive(DRIVE_SPEED, 12,12,2);// drive forward
+        encoderDrive(DRIVE_SLOW, 6,6,2);// drive forward
+
+        liftXRail(3250);
         //pivot box all the way
         robot.liftServo(0.4); //middle
         sleep(800);
-        liftXRail(-4900);
+        liftXRail(6500);
         sleep(1000);
         robot.liftServo.setPosition(1); //dump box
         sleep(800);
         robot.liftServo.setPosition(.4);//middle
         sleep(1000);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
 
         //go back
-        encoderDrive(DRIVE_SPEED,-33,-33,2.0);
+        encoderDrive(DRIVE_SPEED,-36,-36,2.0);
         robot.elevatorServo.setPosition(.5);
         sleep(500);
         encoderDrive(DRIVE_SLOW,-3,-3,2.0);
         //strafe right
-        encoderDrive(DRIVE_SPEED,24,-24,5.0);
-        encoderDrive(DRIVE_SLOW,15,-15,3.0);
+        encoderDrive(DRIVE_SPEED,33,-33,5.0);
+        encoderDrive(DRIVE_SLOW,5,-5,3.0);
+        encoderDrive(DRIVE_SLOW,-2,-2,2.0);
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(.015);
+        while(3>runtime.seconds()&&opModeIsActive()){           //SPIN DUCKY
+            robot.duckyMover.setPower(-.4);
         }
         robot.duckyMover.setPower(0);
         //strafe to depot
         encoderDrive(DRIVE_SPEED,-25,25,4.0);
         encoderDrive(DRIVE_SPEED,-4,-4,2.0);
+        sleep(20000);
+
     }
 
 

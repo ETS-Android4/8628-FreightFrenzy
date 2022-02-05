@@ -81,12 +81,12 @@ public class WarehouseRed extends LinearOpMode {
     public void runOpMode() {
 
         // get a reference to our digitalTouch object.
-        digitalTouchLeft = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+        digitalTouchLeft = hardwareMap.get(DigitalChannel.class, "digitalTouchLeft");
 
         // set the digital channel to input.
         digitalTouchLeft.setMode(DigitalChannel.Mode.INPUT);
         // get a reference to our digitalTouch object.
-        digitalTouchRight = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+        digitalTouchRight = hardwareMap.get(DigitalChannel.class, "digitalTouchRight");
 
         // set the digital channel to input.
         digitalTouchRight.setMode(DigitalChannel.Mode.INPUT);
@@ -132,7 +132,7 @@ public class WarehouseRed extends LinearOpMode {
             // if the digital channel returns true it's HIGH and the button is unpressed.
             digitalTouchLeft.setState(true);
             digitalTouchRight.setState(true);
-            encoderDrive(DRIVE_SPEED, 16, 16, 3); //go to touch sensor
+            encoderDrive(.6, 16, 16, 3); //go to touch sensor
             robot.touchServoLeft.setPosition(robot.LEFT_DOWN);
             robot.touchServoRight.setPosition(robot.RIGHT_DOWN);
             sleep(1500);
@@ -185,34 +185,34 @@ public class WarehouseRed extends LinearOpMode {
         telemetry.addData("Running route", "1");
         encoderDrive(DRIVE_SPEED, -6,-6,2);
         // turnLeft(TURN_SPEED,.4);
-        encoderDrive(DRIVE_SPEED,-14,14,2.0);
-        encoderDrive(DRIVE_SPEED,8,8,2.0);
+        encoderDrive(DRIVE_SPEED,-23,23,2.0);
+
+        encoderDrive(DRIVE_SPEED,10,10,2.0);
         encoderDrive(DRIVE_SLOW,3,3,2.0);
-        liftXRail(-1600);
+
+        liftXRail(2800);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
         sleep(800);
-        liftXRail(-2500);//CHANGE
-        sleep(1000);
         robot.liftServo.setPosition(1);
         sleep(1000);
-        robot.elevatorServo.setPosition(.6);
-        sleep(300);
         robot.liftServo.setPosition(.4);
         sleep(1000);
-        liftXRail(-1600);
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(100);
         robot.elevatorServo.setPosition(.5);
-
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
         robot.elevatorServo.setPosition(.5);
         turnLeft(TURN_SPEED, .9);
-        encoderDrive(DRIVE_SPEED, 37,-37,5.0); //to wall
+        encoderDrive(DRIVE_SPEED, 28,-28,5.0); //to wall
         encoderDrive(DRIVE_SLOW,3,-3,2.0);
 
-        encoderDrive(DRIVE_SPEED, 60,60,4.0);
-        turnRight(TURN_SPEED, 1.4);
+        encoderDrive(DRIVE_SPEED, 52,52,4.0);
+        turnRight(TURN_SPEED, 1.6);
         //alt ending in corner (remove turn):
         //
         // encoderDrive(DRIVE_SPEED, -27,27,5.0);
@@ -226,38 +226,34 @@ public class WarehouseRed extends LinearOpMode {
     public void runTwo(){
         encoderDrive(DRIVE_SPEED, -6,-6,2);
         // turnLeft(TURN_SPEED,.4);
-        encoderDrive(DRIVE_SPEED,-14,14,2.0);
-        encoderDrive(DRIVE_SPEED,8,8,2.0);
+        encoderDrive(DRIVE_SPEED,-23,23,2.0);
+        robot.elevatorServo.setPosition(.7);
+        encoderDrive(DRIVE_SPEED,9,9,2.0);
         encoderDrive(DRIVE_SLOW,3,3,2.0);
-        liftXRail(-1600);
+
+        liftXRail(3200);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
         sleep(800);
-        sleep(1000);
-        liftXRail(-2500);//CHANGE
-        sleep(800);
         robot.liftServo.setPosition(1);
-        sleep(900);
+        sleep(1000);
         robot.liftServo.setPosition(.4);
-        sleep(900);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
-
+        sleep(1000);
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
         turnLeft(TURN_SPEED, .9);
-        encoderDrive(DRIVE_SPEED, 37,-37,5.0); //to wall
+        encoderDrive(DRIVE_SPEED, 22,-22,5.0); //to wall
         encoderDrive(DRIVE_SLOW,3,-3,2.0);
 
-        encoderDrive(DRIVE_SPEED, 60,60,4.0);
-        turnRight(TURN_SPEED, 1.4);
-        //alt ending in corner (remove turn):
-        //
-        // encoderDrive(DRIVE_SPEED, -27,27,5.0);
-        // turnRight(TURN_SPEED, .7);
-        // encoderDrive(DRIVE_SPEED, -18,18,5.0);
-        //
+        encoderDrive(DRIVE_SPEED, 50,50,4.0);
+        turnRight(TURN_SPEED, 1.6);
+
         sleep(20000);
 
 
@@ -265,30 +261,34 @@ public class WarehouseRed extends LinearOpMode {
     public void runThree(){
         encoderDrive(DRIVE_SPEED, -6,-6,2);
         // turnLeft(TURN_SPEED,.4);
-        encoderDrive(DRIVE_SPEED,-14,14,2.0);
+        encoderDrive(DRIVE_SPEED,-21,21,2.0);
         encoderDrive(DRIVE_SPEED,8,8,2.0);
         encoderDrive(DRIVE_SLOW,3,3,2.0);
-        liftXRail(-1600);
+
+        liftXRail(3250);
         //pivot box all the way
         robot.liftServo(0.4); //middle
         sleep(800);
-        liftXRail(-6300);
-        sleep(1300);
+        liftXRail(6500);
+        sleep(1000);
         robot.liftServo.setPosition(1); //dump box
         sleep(800);
         robot.liftServo.setPosition(.4);//middle
         sleep(1000);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
+        sleep(1000);
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
 
         encoderDrive(DRIVE_SPEED, -4,-4,2.0);
 
         turnLeft(TURN_SPEED, .9);
-        encoderDrive(DRIVE_SPEED, 37,-37,5.0); //to wall
+        encoderDrive(DRIVE_SPEED, 25,-25,5.0); //to wall
         encoderDrive(DRIVE_SLOW,3,-3,2.0);
 
-        encoderDrive(DRIVE_SPEED, 60,60,4.0);
-        turnRight(TURN_SPEED, 1.4);
+        encoderDrive(DRIVE_SPEED, 50,50,4.0);
+        turnRight(TURN_SPEED, 1.6);
         //alt ending in corner (remove turn):
         //
         // encoderDrive(DRIVE_SPEED, -27,27,5.0);

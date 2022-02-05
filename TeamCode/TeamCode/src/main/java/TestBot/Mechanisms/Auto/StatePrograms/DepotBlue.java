@@ -81,12 +81,12 @@ public class DepotBlue extends LinearOpMode {
     public void runOpMode() {
 
         // get a reference to our digitalTouch object.
-        digitalTouchLeft = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+        digitalTouchLeft = hardwareMap.get(DigitalChannel.class, "digitalTouchLeft");
 
         // set the digital channel to input.
         digitalTouchLeft.setMode(DigitalChannel.Mode.INPUT);
         // get a reference to our digitalTouch object.
-        digitalTouchRight = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+        digitalTouchRight = hardwareMap.get(DigitalChannel.class, "digitalTouchRight");
 
         // set the digital channel to input.
         digitalTouchRight.setMode(DigitalChannel.Mode.INPUT);
@@ -194,81 +194,87 @@ public class DepotBlue extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,2.5,2.5,1);
         //slow forward to get to carousel
         encoderDrive(DRIVE_SLOW,2,2,2.0);
-        liftXRail(-1600);
+
+        liftXRail(2800);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
-        sleep(500);
-        liftXRail(-2500);//CHANGE
-        sleep(500);
+        sleep(800);
         robot.liftServo.setPosition(1);
         sleep(1000);
-        robot.elevatorServo.setPosition(.6);
-        sleep(300);
         robot.liftServo.setPosition(.4);
         sleep(1000);
-        liftXRail(-1600);
-        robot.elevatorServo.setPosition(.7);
-        sleep(300);
-        robot.elevatorServo.setPosition(.5);
-        sleep(300);
-        //go back
-        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
-        //turn towards carousel
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
 
-        robot.elevatorServo.setPosition(.5);
+
+        //go back
+        encoderDrive(DRIVE_SPEED,-30,-30,3.0);
+        encoderDrive(DRIVE_SLOW, -2,-2,2.0);
+
+
         turnLeft(TURN_SPEED,.9);
         sleep(500);
         encoderDrive(DRIVE_SPEED,7,-7,5.0);
         encoderDrive(DRIVE_SLOW,9,-9,5.0);
 
         //go forwards to carousel
-        encoderDrive(DRIVE_SPEED,-27,-27,4.0);
-        encoderDrive(DRIVE_SLOW,-5,-5,3.0);
+        encoderDrive(DRIVE_SPEED,-25,-25,4.0);
+        encoderDrive(DRIVE_SLOW,-3,-3,3.0);
 
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
+        while(3>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.5);
         }
         robot.duckyMover.setPower(0);
         //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
+        //in case park in depot
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
+        //to park in warehouse
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        turnLeft(TURN_SPEED,.9);
+        encoderDrive(DRIVE_SPEED,20,-20,3.0);
+        encoderDrive(DRIVE_SPEED,-80,-80,4.0);
+
+        sleep(1000);
+        liftXRail(100);
+        sleep(20000);
     }
+
     public void runTwo(){
         //backwards
         encoderDrive(DRIVE_SPEED,-10,-10,2.0);
         //turn right
-        turnRight(TURN_SPEED,.85);
+        turnRight(TURN_SPEED,.9);
 
         telemetry.addData("Running route", "3");
         telemetry.update();
         encoderDrive(TURN_SPEED, 37,-37,4.0); //strafe left
-        encoderDrive(DRIVE_SPEED, 10,10,2); //correcting 6 inches for different start position
-        encoderDrive(DRIVE_SLOW,2.5,2.5,1);
+        robot.elevatorServo.setPosition(.7);
+        encoderDrive(DRIVE_SPEED, 7,7,2);
+        encoderDrive(DRIVE_SLOW,2,2,1);
         //slow forward to get to carousel
         encoderDrive(DRIVE_SLOW,2,2,2.0);
-        liftXRail(-1600);
+
+        liftXRail(3200);
         //pivot box all the way
         robot.liftServo.setPosition(0.4); //middle
-        sleep(700);
-        sleep(1000);
-        liftXRail(-2500);//CHANGE
         sleep(800);
-        robot.liftServo.setPosition(1); //dump
-        sleep(900);
+        robot.liftServo.setPosition(1);
+        sleep(1000);
         robot.liftServo.setPosition(.4);
-        sleep(900);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
+        sleep(1000);
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
 
         //go back
-        encoderDrive(DRIVE_SPEED,-30,-30,2.0);
+        encoderDrive(DRIVE_SPEED,-28,-28,2.0);
         //turn towards carousel
 
         robot.elevatorServo.setPosition(.5);
         turnLeft(TURN_SPEED,.9);
         sleep(500);
-        encoderDrive(DRIVE_SPEED,7,-7,5.0);
+        encoderDrive(DRIVE_SPEED,9,-9,5.0);
         encoderDrive(DRIVE_SLOW,9,-9,5.0);
 
         //go forwards to carousel
@@ -277,19 +283,30 @@ public class DepotBlue extends LinearOpMode {
 
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
+        while(3>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.5);
         }
         robot.duckyMover.setPower(0);
         //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
+       //IN CASE OF PARK IN DEPOT
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
+
+        //to park in warehouse
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        turnLeft(TURN_SPEED,.9);
+        encoderDrive(DRIVE_SPEED,20,-20,3.0);
+        encoderDrive(DRIVE_SPEED,-80,-80,4.0);
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
+
+        sleep(20000);
 
     }
     public void runThree(){
         //backwards
         encoderDrive(DRIVE_SPEED,-10,-10,2.0);
         //turn right
-        turnRight(TURN_SPEED,.85);
+        turnRight(TURN_SPEED,.9);
 
         telemetry.addData("Running route", "3");
         telemetry.update();
@@ -298,18 +315,18 @@ public class DepotBlue extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,2.5,2.5,1);
         //slow forward to get to carousel
         encoderDrive(DRIVE_SLOW,2,2,2.0);
-        liftXRail(-1600);
+
+        liftXRail(3250);
         //pivot box all the way
         robot.liftServo(0.4); //middle
         sleep(800);
-        liftXRail(-6300);
-        sleep(1300);
+        liftXRail(5500);
         robot.liftServo.setPosition(1); //dump box
         sleep(800);
         robot.liftServo.setPosition(.4);//middle
         sleep(1000);
-        liftXRail(-1600);
-        robot.liftServo.setPosition(0); //down
+        liftXRail(2500);
+        robot.liftServo.setPosition(.2);
 
         //go back
         encoderDrive(DRIVE_SPEED,-30,-30,2.0);
@@ -322,17 +339,27 @@ public class DepotBlue extends LinearOpMode {
         encoderDrive(DRIVE_SLOW,9,-9,5.0);
 
         //go forwards to carousel
-        encoderDrive(DRIVE_SPEED,-27,-27,4.0);
+        encoderDrive(DRIVE_SPEED,-28,-28,4.0);
         encoderDrive(DRIVE_SLOW,-5,-5,3.0);
 
         //spin carousel
         runtime.reset();
-        while(6>runtime.seconds()){           //SPIN DUCKY
-            robot.duckyMover.setPower(-.015);
+        while(3>runtime.seconds()){           //SPIN DUCKY
+            robot.duckyMover.setPower(.5);
         }
         robot.duckyMover.setPower(0);
         //back to depot
-        encoderDrive(DRIVE_SPEED,20,20,3.0);
+       //in case park in depot
+        // encoderDrive(DRIVE_SPEED,18,18,3.0);
+        //to park in warehouse
+        encoderDrive(DRIVE_SPEED,-36,36,2.0);
+        turnLeft(TURN_SPEED,.9);
+        encoderDrive(DRIVE_SPEED,20,-20,3.0);
+        encoderDrive(DRIVE_SPEED,-80,-80,4.0);
+
+        liftXRail(1100);
+        robot.elevatorServo.setPosition(.5);
+        sleep(20000);
     }
 
 
